@@ -28,8 +28,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            //AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
-            await authMicrosoftService.Login();
+            await AuthMicrosoftService.Login();
         }
         catch (Exception ex)
         {
@@ -42,8 +41,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            //AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
-            await authMicrosoftService.Logout();
+            await AuthMicrosoftService.Logout();
             // Optionally, add any UI updates or notifications here to indicate successful logout
         }
         catch (Exception ex)
@@ -51,5 +49,4 @@ public sealed partial class MainPage : Page
             Debug.WriteLine($"Error during logout: {ex.Message}");
         }
     }
-
 }
