@@ -12,7 +12,7 @@ internal class AuthMicrosoftService
     private const string RedirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
     private static readonly string Authority = "https://login.microsoftonline.com/common";
 
-    static async Task AuthMicrosoft(string[] args)
+    public async Task AuthMicrosoft()
     {
         var pca = PublicClientApplicationBuilder.Create(ClientId)
             .WithRedirectUri(RedirectUri)

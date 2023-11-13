@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Intune_Group_Assignments.Services;
 using Intune_Group_Assignments.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,16 +24,12 @@ public sealed partial class MainPage : Page
     }
 
     // Event handler for connection button
-    private void ButtonConnect_Click(object sender, RoutedEventArgs e)
+    private async void ButtonConnect_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            Debug.WriteLine("Toto");
-            // Create an instance of AuthMicrosoftService
-            // AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
-
-            // Call the AuthMicrosoft method on the instance
-            // await AuthMicrosoftService.AuthMicrosoft();
+            AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
+            await authMicrosoftService.AuthMicrosoft();
         }
         catch (Exception ex)
         {
