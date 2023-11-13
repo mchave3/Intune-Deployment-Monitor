@@ -42,12 +42,14 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            // Call the method on the existing instance
-            // await _authMicrosoftService.LogoutAsync();
+            AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
+            await authMicrosoftService.Logout();
+            // Optionally, add any UI updates or notifications here to indicate successful logout
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error: {ex.ToString()}");
+            Debug.WriteLine($"Error during logout: {ex.Message}");
         }
     }
+
 }
