@@ -11,7 +11,15 @@ namespace Intune_Group_Assignments.Services
         private const string ClientId = "4a033909-37a0-49f0-99fc-27a0268a606c";
         private const string RedirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
         private static readonly string Authority = "https://login.microsoftonline.com/organizations";
-        private static readonly string[] scopes = new[] { "User.Read" };
+        private static readonly string[] scopes = new[]
+        {
+            "User.Read",
+            "Group.Read.All",
+            "DeviceManagementManagedDevices.Read.All",
+            "DeviceManagementServiceConfig.Read.All",
+            "DeviceManagementApps.Read.All",
+            "DeviceManagementConfiguration.Read.All"
+        };
 
         // Lazy initialization of PublicClientApplication
         private static IPublicClientApplication _pca = null;
