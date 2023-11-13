@@ -7,13 +7,14 @@ namespace Intune_Group_Assignments.Services
 {
     internal class AuthMicrosoftService
     {
+        // Constants for OAuth configuration
         private const string ClientId = "4a033909-37a0-49f0-99fc-27a0268a606c";
         private const string RedirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
         private static readonly string Authority = "https://login.microsoftonline.com/organizations";
         private static readonly string[] scopes = new[] { "User.Read" };
 
+        // Lazy initialization of PublicClientApplication
         private static IPublicClientApplication _pca = null;
-
         private static IPublicClientApplication PCA
         {
             get
@@ -29,10 +30,12 @@ namespace Intune_Group_Assignments.Services
             }
         }
 
+        // Method to handle user login
         public static async Task Login()
         {
             try
             {
+                // Attempt to acquire an access token silently
                 var accounts = await PCA.GetAccountsAsync();
                 var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                       .ExecuteAsync();
@@ -41,6 +44,7 @@ namespace Intune_Group_Assignments.Services
             }
             catch (MsalUiRequiredException)
             {
+                // If silent acquisition fails, acquire token interactively
                 try
                 {
                     var result = await PCA.AcquireTokenInteractive(scopes)
@@ -59,11 +63,13 @@ namespace Intune_Group_Assignments.Services
             }
         }
 
+        // Method to handle user logout
         public static async Task Logout()
         {
             Debug.WriteLine("Attempting to log out...");
             try
             {
+                // Get all accounts and remove the first one found
                 var accounts = await PCA.GetAccountsAsync();
                 Debug.WriteLine($"Found {accounts.Count()} account(s).");
 
@@ -80,6 +86,40 @@ namespace Intune_Group_Assignments.Services
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error during logout: {ex.Message}");
+            }
+        }
+
+        // Method for silent login attempt
+        public static async Task<bool> SilentLogin()
+        {
+            var accounts = await PCA.GetAccountsAsync();
+            if (accounts.Any())
+            {
+                try
+                {
+                    var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault()).ExecuteAsync();
+                    // If silent authentication is successful, return true
+                    Debug.WriteLine($"Access Token: {result.AccessToken}");
+                    return true;
+                }
+                catch (MsalUiRequiredException)
+                {
+                    // If silent authentication fails, return false
+                    Debug.WriteLine("Silent authentication failed. Interactive login required.");
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    Debug.WriteLine($"Error during silent authentication: {ex.Message}");
+                    return false;
+                }
+            }
+            else
+            {
+                // If no accounts are available for silent login, return false
+                Debug.WriteLine("No accounts available for silent login.");
+                return false;
             }
         }
     }
