@@ -7,6 +7,7 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        
+        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button x:Name="ButtonDisconnect" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" />
     </Grid>
 </Page>
