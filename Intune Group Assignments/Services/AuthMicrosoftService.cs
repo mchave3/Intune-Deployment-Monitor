@@ -10,11 +10,13 @@ internal class AuthMicrosoftService
 {
     private const string ClientId = "c5b3a7b5-f1a9-4ebc-8d2c-0581e7491774";
     private const string RedirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
+    private static readonly string Authority = "https://login.microsoftonline.com/common";
 
     static async Task AuthMicrosoft(string[] args)
     {
         var pca = PublicClientApplicationBuilder.Create(ClientId)
             .WithRedirectUri(RedirectUri)
+            .WithAuthority(new Uri(Authority))
             .Build();
 
         var result = await AcquireTokenAsync(pca, new[] { "User.Read" });
