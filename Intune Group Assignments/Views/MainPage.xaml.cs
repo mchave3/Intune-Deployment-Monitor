@@ -28,8 +28,8 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
-            await authMicrosoftService.AuthMicrosoft();
+            //AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
+            await authMicrosoftService.Login();
         }
         catch (Exception ex)
         {
@@ -42,7 +42,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
+            //AuthMicrosoftService authMicrosoftService = new AuthMicrosoftService();
             await authMicrosoftService.Logout();
             // Optionally, add any UI updates or notifications here to indicate successful logout
         }

@@ -12,28 +12,38 @@ namespace Intune_Group_Assignments.Services
         private static readonly string Authority = "https://login.microsoftonline.com/organizations";
         private static readonly string[] scopes = new[] { "User.Read" };
 
-        public async Task AuthMicrosoft()
-        {
-            var pca = PublicClientApplicationBuilder.Create(ClientId)
-                .WithRedirectUri(RedirectUri)
-                .WithAuthority(new Uri(Authority))
-                .Build();
+        private static IPublicClientApplication _pca = null;
 
+        private static IPublicClientApplication PCA
+        {
+            get
+            {
+                if (_pca == null)
+                {
+                    _pca = PublicClientApplicationBuilder.Create(ClientId)
+                        .WithRedirectUri(RedirectUri)
+                        .WithAuthority(new Uri(Authority))
+                        .Build();
+                }
+                return _pca;
+            }
+        }
+
+        public static async Task Login()
+        {
             try
             {
-                // Attempt to acquire an access token silently
-                var accounts = await pca.GetAccountsAsync();
-                var result = await pca.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                var accounts = await PCA.GetAccountsAsync();
+                var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                       .ExecuteAsync();
 
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
             }
             catch (MsalUiRequiredException)
             {
-                // If silent acquisition fails, acquire token interactively
                 try
                 {
-                    var result = await pca.AcquireTokenInteractive(scopes)
+                    var result = await PCA.AcquireTokenInteractive(scopes)
                                           .ExecuteAsync();
 
                     Debug.WriteLine($"Access Token: {result.AccessToken}");
@@ -49,25 +59,27 @@ namespace Intune_Group_Assignments.Services
             }
         }
 
-        public async Task Logout()
+        public static async Task Logout()
         {
-            var pca = PublicClientApplicationBuilder.Create(ClientId)
-                .WithRedirectUri(RedirectUri)
-                .WithAuthority(new Uri(Authority))
-                .Build();
-
-            var accounts = await pca.GetAccountsAsync();
-            if (accounts.Any())
+            Debug.WriteLine("Attempting to log out...");
+            try
             {
-                try
+                var accounts = await PCA.GetAccountsAsync();
+                Debug.WriteLine($"Found {accounts.Count()} account(s).");
+
+                if (accounts.Any())
                 {
-                    await pca.RemoveAsync(accounts.FirstOrDefault());
+                    await PCA.RemoveAsync(accounts.FirstOrDefault());
                     Debug.WriteLine("User has been logged out.");
                 }
-                catch (MsalException ex)
+                else
                 {
-                    Debug.WriteLine($"Error signing out: {ex.Message}");
+                    Debug.WriteLine("No accounts to log out.");
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error during logout: {ex.Message}");
             }
         }
     }
