@@ -52,7 +52,7 @@ public partial class MainViewModel : ObservableRecipient
         get => _displayName;
         set
         {
-            SetProperty(ref _displayName, "Welcome " + value);
+            SetProperty(ref _displayName, value);
             UpdateWelcomeMessageVisibility();
         }
     }
