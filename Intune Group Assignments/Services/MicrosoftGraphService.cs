@@ -19,7 +19,6 @@ public class MicrosoftGraphService
     {
         // Retrieve the access token from AuthMicrosoftService
         var accessToken = AuthMicrosoftService.GraphApiAccessToken;
-        Debug.WriteLine($"Access Token: {accessToken}");
 
         using var client = new HttpClient();
         // Set the authorization header with the access token

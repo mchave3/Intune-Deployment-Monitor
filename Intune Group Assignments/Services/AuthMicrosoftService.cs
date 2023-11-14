@@ -55,7 +55,6 @@ internal class AuthMicrosoftService
             GraphApiAccessToken = result.AccessToken;
 
             Debug.WriteLine($"Access Token: {result.AccessToken}");
-            Debug.WriteLine($"Token: {GraphApiAccessToken}");
         }
         catch (MsalUiRequiredException)
         {
@@ -67,7 +66,6 @@ internal class AuthMicrosoftService
                 GraphApiAccessToken = result.AccessToken;
 
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
-                Debug.WriteLine($"Token: {GraphApiAccessToken}");
             }
             catch (MsalException ex)
             {
