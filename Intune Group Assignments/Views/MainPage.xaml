@@ -1,12 +1,23 @@
-﻿<Page
-    x:Class="Intune_Group_Assignments.Views.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="Intune_Group_Assignments.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        
+        <TextBlock Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.WelcomeMessageVisibility, Mode=OneWay}"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
+
+        <Button x:Name="ButtonConnect" Content="Connect" 
+                Command="{x:Bind ViewModel.ConnectCommand}" 
+                Visibility="{x:Bind ViewModel.ConnectButtonVisibility, Mode=OneWay}"
+                HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <Button x:Name="ButtonDisconnect" Content="Disconnect" 
+                Command="{x:Bind ViewModel.DisconnectCommand}" 
+                Visibility="{x:Bind ViewModel.DisconnectButtonVisibility, Mode=OneWay}"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" />
     </Grid>
 </Page>

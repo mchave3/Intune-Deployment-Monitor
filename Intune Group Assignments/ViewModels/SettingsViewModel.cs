@@ -10,6 +10,7 @@ using Intune_Group_Assignments.Helpers;
 using Microsoft.UI.Xaml;
 
 using Windows.ApplicationModel;
+using Windows.Devices.Lights;
 
 namespace Intune_Group_Assignments.ViewModels;
 
