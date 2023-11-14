@@ -5,56 +5,53 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace Intune_Group_Assignments.Services
+namespace Intune_Group_Assignments.Services;
+
+public class MicrosoftGraphService
 {
-    public class MicrosoftGraphService
+    // Retrieve the access token from AuthMicrosoftService
+    readonly string accessToken = AuthMicrosoftService.AccessToken;
+
+    // Base URL for Microsoft Graph API
+    private readonly string baseGraphUrl = "https://graph.microsoft.com";
+
+    // API version for Microsoft Graph
+    private readonly string apiVersion = "v1.0";
+
+    public async Task<string> GetUserDisplayNameAsync()
     {
-        // Retrieve the access token from AuthMicrosoftService
-        readonly string accessToken = AuthMicrosoftService.AccessToken;
+        using var client = new HttpClient();
+        // Set the authorization header with the access token
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        // Base URL for Microsoft Graph API
-        private readonly string baseGraphUrl = "https://graph.microsoft.com";
+        // Construct the request URL for Microsoft Graph API
+        var requestUrl = $"{baseGraphUrl}/{apiVersion}/me";
+        Debug.WriteLine($"Sending request to Microsoft Graph API: {requestUrl}");
 
-        // API version for Microsoft Graph
-        private readonly string apiVersion = "Beta";
-
-        public async Task<string> GetUserDisplayNameAsync()
+        try
         {
-            using (var client = new HttpClient())
+            var response = await client.GetAsync(requestUrl);
+            if (response.IsSuccessStatusCode)
             {
-                // Set the authorization header with the access token
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                var json = await response.Content.ReadAsStringAsync();
+                dynamic result = JsonConvert.DeserializeObject(json);
 
-                // Construct the request URL for Microsoft Graph API
-                string requestUrl = $"{baseGraphUrl}/{apiVersion}/me";
-                Debug.WriteLine($"Sending request to Microsoft Graph API: {requestUrl}");
-
-                try
-                {
-                    var response = await client.GetAsync(requestUrl);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var json = await response.Content.ReadAsStringAsync();
-                        dynamic result = JsonConvert.DeserializeObject(json);
-
-                        // Log the received display name
-                        Debug.WriteLine($"Display Name received: {result.displayName}");
-                        return result.displayName;
-                    }
-                    else
-                    {
-                        // Log the error status
-                        Debug.WriteLine($"Error in response. Status Code: {response.StatusCode}");
-                        return null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Log any exceptions that occur during the request
-                    Debug.WriteLine($"Exception occurred: {ex.Message}"); // Log de debug
-                    return null;
-                }
+                // Log the received display name
+                Debug.WriteLine($"Display Name received: {result.displayName}");
+                return result.displayName;
             }
+            else
+            {
+                // Log the error status
+                Debug.WriteLine($"Error in response. Status Code: {response.StatusCode}");
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log any exceptions that occur during the request
+            Debug.WriteLine($"Exception occurred: {ex.Message}"); // Log de debug
+            return null;
         }
     }
 }

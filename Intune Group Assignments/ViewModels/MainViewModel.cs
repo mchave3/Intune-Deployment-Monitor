@@ -6,115 +6,114 @@ using Intune_Group_Assignments.Services;
 using Microsoft.UI.Xaml;
 using System.Diagnostics;
 
-namespace Intune_Group_Assignments.ViewModels
+namespace Intune_Group_Assignments.ViewModels;
+
+public partial class MainViewModel : ObservableRecipient
 {
-    public partial class MainViewModel : ObservableRecipient
+    private readonly MicrosoftGraphService _microsoftGraphService;
+    private Visibility _connectButtonVisibility = Visibility.Visible;
+    private Visibility _disconnectButtonVisibility = Visibility.Collapsed;
+    private string _displayName;
+
+    public MainViewModel()
     {
-        private readonly MicrosoftGraphService _microsoftGraphService;
-        private Visibility _connectButtonVisibility = Visibility.Visible;
-        private Visibility _disconnectButtonVisibility = Visibility.Collapsed;
-        private string _displayName;
+        _microsoftGraphService = new MicrosoftGraphService();
 
-        public MainViewModel()
+        ConnectCommand = new RelayCommand(ExecuteConnect);
+        DisconnectCommand = new RelayCommand(ExecuteDisconnect);
+        SilentLogin();
+    }
+
+    public ICommand ConnectCommand
+    {
+        get;
+    }
+    public ICommand DisconnectCommand
+    {
+        get;
+    }
+
+    public Visibility ConnectButtonVisibility
+    {
+        get => _connectButtonVisibility;
+        set => SetProperty(ref _connectButtonVisibility, value);
+    }
+
+    public Visibility DisconnectButtonVisibility
+    {
+        get => _disconnectButtonVisibility;
+        set => SetProperty(ref _disconnectButtonVisibility, value);
+    }
+
+    public Visibility WelcomeMessageVisibility { get; private set; } = Visibility.Collapsed;
+
+    public string DisplayName
+    {
+        get => _displayName;
+        set
         {
-            _microsoftGraphService = new MicrosoftGraphService();
-
-            ConnectCommand = new RelayCommand(ExecuteConnect);
-            DisconnectCommand = new RelayCommand(ExecuteDisconnect);
-            SilentLogin();
+            SetProperty(ref _displayName, value);
+            UpdateWelcomeMessageVisibility();
         }
+    }
 
-        public ICommand ConnectCommand
+    private void UpdateWelcomeMessageVisibility()
+    {
+        WelcomeMessageVisibility = string.IsNullOrEmpty(DisplayName) ? Visibility.Collapsed : Visibility.Visible;
+        OnPropertyChanged(nameof(WelcomeMessageVisibility));
+    }
+
+    private async void ExecuteConnect()
+    {
+        try
         {
-            get;
+            await AuthMicrosoftService.Login();
+            DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
+            UpdateUI(true);
         }
-        public ICommand DisconnectCommand
+        catch (Exception ex)
         {
-            get;
+            Debug.WriteLine($"Error during login: {ex}");
+            UpdateUI(false);
         }
+    }
 
-        public Visibility ConnectButtonVisibility
+    private async void ExecuteDisconnect()
+    {
+        try
         {
-            get => _connectButtonVisibility;
-            set => SetProperty(ref _connectButtonVisibility, value);
+            await AuthMicrosoftService.Logout();
+            DisplayName = string.Empty;
+            UpdateUI(false);
         }
-
-        public Visibility DisconnectButtonVisibility
+        catch (Exception ex)
         {
-            get => _disconnectButtonVisibility;
-            set => SetProperty(ref _disconnectButtonVisibility, value);
+            Debug.WriteLine($"Error during logout: {ex}");
+            UpdateUI(true);
         }
+    }
 
-        public Visibility WelcomeMessageVisibility { get; private set; } = Visibility.Collapsed;
-
-        public string DisplayName
+    private async void SilentLogin()
+    {
+        try
         {
-            get => _displayName;
-            set
+            bool isLoggedIn = await AuthMicrosoftService.SilentLogin();
+            if (isLoggedIn)
             {
-                SetProperty(ref _displayName, value);
-                UpdateWelcomeMessageVisibility();
-            }
-        }
-
-        private void UpdateWelcomeMessageVisibility()
-        {
-            WelcomeMessageVisibility = string.IsNullOrEmpty(DisplayName) ? Visibility.Collapsed : Visibility.Visible;
-            OnPropertyChanged(nameof(WelcomeMessageVisibility));
-        }
-
-        private async void ExecuteConnect()
-        {
-            try
-            {
-                await AuthMicrosoftService.Login();
                 DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
-                UpdateUI(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error during login: {ex}");
-                UpdateUI(false);
-            }
+            UpdateUI(isLoggedIn);
         }
-
-        private async void ExecuteDisconnect()
+        catch (Exception ex)
         {
-            try
-            {
-                await AuthMicrosoftService.Logout();
-                DisplayName = string.Empty;
-                UpdateUI(false);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error during logout: {ex}");
-                UpdateUI(true);
-            }
+            Debug.WriteLine($"Error during silent login: {ex}");
+            UpdateUI(false);
         }
+    }
 
-        private async void SilentLogin()
-        {
-            try
-            {
-                bool isLoggedIn = await AuthMicrosoftService.SilentLogin();
-                if (isLoggedIn)
-                {
-                    DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
-                }
-                UpdateUI(isLoggedIn);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error during silent login: {ex}");
-                UpdateUI(false);
-            }
-        }
-
-        private void UpdateUI(bool isLoggedIn)
-        {
-            ConnectButtonVisibility = isLoggedIn ? Visibility.Collapsed : Visibility.Visible;
-            DisconnectButtonVisibility = isLoggedIn ? Visibility.Visible : Visibility.Collapsed;
-        }
+    private void UpdateUI(bool isLoggedIn)
+    {
+        ConnectButtonVisibility = isLoggedIn ? Visibility.Collapsed : Visibility.Visible;
+        DisconnectButtonVisibility = isLoggedIn ? Visibility.Visible : Visibility.Collapsed;
     }
 }
