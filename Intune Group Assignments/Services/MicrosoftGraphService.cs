@@ -10,7 +10,7 @@ namespace Intune_Group_Assignments.Services;
 public class MicrosoftGraphService
 {
     // Retrieve the access token from AuthMicrosoftService
-    readonly string accessToken = AuthMicrosoftService.AccessToken;
+    readonly string accessToken = AuthMicrosoftService.GraphApiAccessToken;
 
     // Base URL for Microsoft Graph API
     private readonly string baseGraphUrl = "https://graph.microsoft.com";
@@ -20,6 +20,8 @@ public class MicrosoftGraphService
 
     public async Task<string> GetUserDisplayNameAsync()
     {
+        Debug.WriteLine($"Access Token: {accessToken}");
+
         using var client = new HttpClient();
         // Set the authorization header with the access token
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);

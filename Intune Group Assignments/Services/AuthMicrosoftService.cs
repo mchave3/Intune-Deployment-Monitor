@@ -38,7 +38,7 @@ internal class AuthMicrosoftService
         }
     }
 
-    public static string AccessToken
+    public static string GraphApiAccessToken
     {
         get; private set;
     }
@@ -52,9 +52,10 @@ internal class AuthMicrosoftService
             var accounts = await PCA.GetAccountsAsync();
             var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                   .ExecuteAsync();
-            AccessToken = result.AccessToken;
+            GraphApiAccessToken = result.AccessToken;
 
             Debug.WriteLine($"Access Token: {result.AccessToken}");
+            Debug.WriteLine($"Token: {GraphApiAccessToken}");
         }
         catch (MsalUiRequiredException)
         {
@@ -63,8 +64,10 @@ internal class AuthMicrosoftService
             {
                 var result = await PCA.AcquireTokenInteractive(scopes)
                                       .ExecuteAsync();
+                GraphApiAccessToken = result.AccessToken;
 
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
+                Debug.WriteLine($"Token: {GraphApiAccessToken}");
             }
             catch (MsalException ex)
             {
@@ -112,7 +115,7 @@ internal class AuthMicrosoftService
             try
             {
                 var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault()).ExecuteAsync();
-                AccessToken = result.AccessToken;
+                GraphApiAccessToken = result.AccessToken;
                 // If silent authentication is successful, return true
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
                 return true;
