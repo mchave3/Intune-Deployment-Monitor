@@ -16,6 +16,9 @@
     <FileVersion></FileVersion>
     <Version>$(VersionPrefix)</Version>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\logo-hFTJgDNbK-transformed.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
