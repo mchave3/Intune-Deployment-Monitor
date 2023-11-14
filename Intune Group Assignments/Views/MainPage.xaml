@@ -6,6 +6,10 @@
       mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
+        <TextBlock Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.WelcomeMessageVisibility, Mode=OneWay}"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
+
         <Button x:Name="ButtonConnect" Content="Connect" 
                 Command="{x:Bind ViewModel.ConnectCommand}" 
                 Visibility="{x:Bind ViewModel.ConnectButtonVisibility, Mode=OneWay}"
