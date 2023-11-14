@@ -38,6 +38,11 @@ internal class AuthMicrosoftService
         }
     }
 
+    public static string AccessToken
+    {
+        get; private set;
+    }
+
     // Method to handle user login
     public static async Task Login()
     {
@@ -47,6 +52,7 @@ internal class AuthMicrosoftService
             var accounts = await PCA.GetAccountsAsync();
             var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                   .ExecuteAsync();
+            AccessToken = result.AccessToken;
 
             Debug.WriteLine($"Access Token: {result.AccessToken}");
         }
@@ -106,6 +112,7 @@ internal class AuthMicrosoftService
             try
             {
                 var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault()).ExecuteAsync();
+                AccessToken = result.AccessToken;
                 // If silent authentication is successful, return true
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
                 return true;
