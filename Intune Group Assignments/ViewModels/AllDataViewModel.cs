@@ -1,37 +1,42 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Intune_Group_Assignments.ViewModels;
-
-public partial class AllDataViewModel : ObservableRecipient
+namespace Intune_Group_Assignments.ViewModels
 {
-    public ObservableCollection<SampleData> SampleTable
+    public partial class AllDataViewModel : ObservableObject
     {
-        get; set;
+        private ObservableCollection<SampleData> _sampleTable;
+
+        public ObservableCollection<SampleData> SampleTable
+        {
+            get => _sampleTable;
+            set => SetProperty(ref _sampleTable, value);
+        }
+
+        public AllDataViewModel()
+        {
+            _sampleTable = new ObservableCollection<SampleData>();
+
+            // Add some sample data to the collection
+            for (int i = 1; i <= 5; i++)
+            {
+                _sampleTable.Add(new SampleData { Name = $"Boat {i}", Value = $"Value {i}" });
+            }
+
+            // ... add more data as needed
+        }
     }
 
-    public AllDataViewModel()
+    // Define a simple data model for the sample data
+    public class SampleData
     {
-        // Initialize the ObservableCollection
-        SampleTable = new ObservableCollection<SampleData>();
-
-        // Add some sample data to the collection
-        SampleTable.Add(new SampleData { Name = "Boat 1", Value = "Value 1" });
-        SampleTable.Add(new SampleData { Name = "Boat 2", Value = "Value 2" });
-        SampleTable.Add(new SampleData { Name = "Boat 3", Value = "Value 3" });
-        // ... add more data as needed
-    }
-}
-
-// Define a simple data model for the sample data
-public class SampleData
-{
-    public string Name
-    {
-        get; set;
-    }
-    public string Value
-    {
-        get; set;
+        public string Name
+        {
+            get; set;
+        }
+        public string Value
+        {
+            get; set;
+        }
     }
 }

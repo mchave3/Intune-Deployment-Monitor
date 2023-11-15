@@ -39,10 +39,11 @@
         <Grid x:Name="DataGrid" Grid.Row="1">
             <controls:DataGrid 
                 ItemsSource="{Binding SampleTable}"
-                AutoGenerateColumns="False">
+                AutoGenerateColumns="False"
+                CanUserSortColumns="True">
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                    <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                    <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" CanUserSort="True" />
+                    <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" CanUserSort="True" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
         </Grid>
