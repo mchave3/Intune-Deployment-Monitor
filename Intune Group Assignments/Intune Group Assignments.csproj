@@ -17,6 +17,9 @@
     <Version>$(VersionPrefix)</Version>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\logo-hFTJgDNbK-transformed.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Views\AllDataPage.xaml" />
   </ItemGroup>
 
@@ -26,9 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Graph" Version="5.34.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.57.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />

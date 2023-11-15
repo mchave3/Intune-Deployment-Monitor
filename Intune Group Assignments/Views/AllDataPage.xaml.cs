@@ -1,19 +1,22 @@
-ï»¿using Intune_Group_Assignments.ViewModels;
+using Intune_Group_Assignments.ViewModels;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Intune_Group_Assignments.Views;
-
-public sealed partial class AllDataPage : Page
+namespace Intune_Group_Assignments.Views
 {
-    public AllDataViewModel ViewModel
+    public sealed partial class AllDataPage : Page
     {
-        get;
-    }
+        public AllDataPage()
+        {
+            this.InitializeComponent();
+            // Initialisez votre ViewModel ici si nécessaire
+            this.DataContext = new AllDataViewModel();
+        }
 
-    public AllDataPage()
-    {
-        ViewModel = App.GetService<AllDataViewModel>();
-        InitializeComponent();
-        this.DataContext = ViewModel;
+        // Vous pouvez implémenter des événements ou des méthodes ici, par exemple pour la gestion de la sorting
+        private void DataGrid_OnSorting(object sender, DataGridColumnEventArgs e)
+        {
+            // Code pour gérer la sorting
+        }
     }
 }
