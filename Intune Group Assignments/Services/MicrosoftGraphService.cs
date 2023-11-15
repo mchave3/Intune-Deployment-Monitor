@@ -50,7 +50,7 @@ public class MicrosoftGraphService
         catch (Exception ex)
         {
             // Log any exceptions that occur during the request
-            Debug.WriteLine($"Exception occurred: {ex.Message}"); // Log de debug
+            Debug.WriteLine($"Exception occurred: {ex.Message}");
             return null;
         }
     }
