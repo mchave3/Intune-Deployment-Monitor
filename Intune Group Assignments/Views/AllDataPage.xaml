@@ -7,9 +7,11 @@
       mc:Ignorable="d">
 
     <Grid>
-        <controls:DataGrid x:Name="myDataGrid"
-                   AutoGenerateColumns="True"
-                   Height="200">
+        <controls:DataGrid ItemsSource="{Binding SampleTable}">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+            </controls:DataGrid.Columns>
         </controls:DataGrid>
     </Grid>
 </Page>
