@@ -49,7 +49,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
-                <NavigationViewItem x:Uid="Shell_Settings" helpers:NavigationHelper.NavigateTo="Intune_Group_Assignments.ViewModels.SettingsViewModel">
+                <NavigationViewItem x:Uid="Shell_AllData" helpers:NavigationHelper.NavigateTo="Intune_Group_Assignments.ViewModels.AllDataViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE71D;"/>
                     </NavigationViewItem.Icon>
