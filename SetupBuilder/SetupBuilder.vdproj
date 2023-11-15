@@ -4,9 +4,9 @@
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:SetupBuilder"
-"LanguageId" = "3:1036"
+"LanguageId" = "3:1033"
 "CodePage" = "3:1252"
-"UILanguageId" = "3:1036"
+"UILanguageId" = "3:1033"
 "SccProjectName" = "8:"
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
@@ -159,7 +159,7 @@
         }
         "MsiBootstrapper"
         {
-        "LangId" = "3:1036"
+        "LangId" = "3:1033"
         "RequiresElevation" = "11:FALSE"
         }
         "Product"
@@ -167,7 +167,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Intune Group Assignments"
         "ProductCode" = "8:{4DC48433-AF2E-4545-88C8-8553B68614C5}"
-        "PackageCode" = "8:{DA11E344-7E80-4545-BA39-C49740CC60FC}"
+        "PackageCode" = "8:{F9FBCEF1-C46D-4189-B694-93B4F2DB60B5}"
         "UpgradeCode" = "8:{9604CEF8-CDF1-48DC-9A6E-818568A6DA29}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
