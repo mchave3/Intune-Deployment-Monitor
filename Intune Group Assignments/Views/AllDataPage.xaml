@@ -3,15 +3,48 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
+      xmlns:viewmodels="using:Intune_Group_Assignments.ViewModels" 
+      d:DataContext="{d:DesignInstance Type=viewmodels:AllDataViewModel}"
       mc:Ignorable="d">
 
     <Grid>
-        <controls:DataGrid ItemsSource="{Binding SampleTable}">
-            <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" />
-            </controls:DataGrid.Columns>
-        </controls:DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Taille automatique pour la CommandBar -->
+            <RowDefinition Height="*"/>
+            <!-- Reste de l'espace pour le DataGrid -->
+        </Grid.RowDefinitions>
+
+        <!-- CommandBar -->
+        <Grid x:Name="CommandBar" Grid.Row="0">
+            <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
+                <AppBarButton Icon="Add" Label="Add"/>
+                <AppBarButton Icon="Edit" Label="Edit"/>
+                <AppBarButton Icon="Share" Label="Share"/>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Icon="Setting" Label="Settings">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="I"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+                <CommandBar.Content>
+                    <TextBox PlaceholderText="Search..." Width="300"/>
+                </CommandBar.Content>
+            </CommandBar>
+        </Grid>
+
+        <!-- DataGrid -->
+        <Grid x:Name="DataGrid" Grid.Row="1">
+            <controls:DataGrid 
+                ItemsSource="{Binding SampleTable}"
+                AutoGenerateColumns="False">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+        </Grid>
     </Grid>
 </Page>

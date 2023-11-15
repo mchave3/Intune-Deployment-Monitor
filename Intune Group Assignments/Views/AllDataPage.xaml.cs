@@ -14,5 +14,6 @@ public sealed partial class AllDataPage : Page
     {
         ViewModel = App.GetService<AllDataViewModel>();
         InitializeComponent();
+        this.DataContext = ViewModel;
     }
 }
