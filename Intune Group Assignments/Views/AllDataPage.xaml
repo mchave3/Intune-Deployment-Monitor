@@ -40,10 +40,15 @@
             <controls:DataGrid 
                 ItemsSource="{Binding SampleTable}"
                 AutoGenerateColumns="False"
-                CanUserSortColumns="True">
+                CanUserSortColumns="True"
+                IsReadOnly="True">
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                    <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                    <controls:DataGridTextColumn
+                        Header="Name" 
+                        Binding="{Binding Name}" />
+                    <controls:DataGridTextColumn 
+                        Header="Value" 
+                        Binding="{Binding Value}" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
         </Grid>

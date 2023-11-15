@@ -18,7 +18,7 @@ namespace Intune_Group_Assignments.ViewModels
             _sampleTable = new ObservableCollection<SampleData>();
 
             // Add some sample data to the collection
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 50; i++)
             {
                 _sampleTable.Add(new SampleData { Name = $"Boat {i}", Value = $"Value {i}" });
             }
