@@ -23,6 +23,10 @@
                 Command="{x:Bind ViewModel.ConnectCommand}" 
                 Visibility="{x:Bind ViewModel.ConnectButtonVisibility, Mode=OneWay}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+        
+        <Button x:Name="ButtonTest" Content="Test_Token"
+                Command="{x:Bind ViewModel.TestCommand}"
+                HorizontalAlignment="Left" VerticalAlignment="Center" />
 
         <Button x:Name="ButtonDisconnect" Content="Disconnect" 
                 Command="{x:Bind ViewModel.DisconnectCommand}" 
