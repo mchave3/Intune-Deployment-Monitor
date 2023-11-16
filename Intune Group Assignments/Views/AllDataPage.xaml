@@ -9,6 +9,13 @@
       mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- For Command Bar -->
+            <RowDefinition Height="*"/>
+            <!-- For Data Grid -->
+        </Grid.RowDefinitions>
+        
         <Grid x:Name="CommandBar" Grid.Row="0">
             <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
                 <AppBarButton Icon="Add" Label="Add"/>
@@ -30,7 +37,7 @@
         <!-- DataGrid setup -->
         <Grid x:Name="DataGrid" Grid.Row="1">
             <controls:DataGrid 
-                ItemsSource="{Binding SampleTable}"
+                ItemsSource="{Binding SampleData}"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="True"
                 IsReadOnly="True">

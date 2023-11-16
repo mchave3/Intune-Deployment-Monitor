@@ -6,30 +6,22 @@ namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
-        private ICollectionView _myCollectionViewSource;
-
-        public ICollectionView MyCollectionViewSource
+        public ObservableCollection<YourDataModel> SampleData
         {
-            get => _myCollectionViewSource;
-            set => SetProperty(ref _myCollectionViewSource, value);
+            get; private set;
         }
 
         public AllDataViewModel()
         {
-            // Initialize and populate MyCollectionViewSource with your data
-            var data = new ObservableCollection<YourDataModel>();
-
-            // Add some sample data to the collection
+            SampleData = new ObservableCollection<YourDataModel>();
             for (int i = 1; i <= 50; i++)
             {
-                data.Add(new YourDataModel
+                SampleData.Add(new YourDataModel
                 {
                     Name = $"Name {i}",
                     Value = $"Value {i}"
                 });
             }
-
-            MyCollectionViewSource = new CollectionViewSource { Source = data }.View;
         }
     }
 
