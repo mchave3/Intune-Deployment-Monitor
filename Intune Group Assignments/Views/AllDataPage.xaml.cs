@@ -12,11 +12,5 @@ namespace Intune_Group_Assignments.Views
             // Initialisez votre ViewModel ici si nécessaire
             this.DataContext = new AllDataViewModel();
         }
-
-        // Vous pouvez implémenter des événements ou des méthodes ici, par exemple pour la gestion de la sorting
-        private void DataGrid_OnSorting(object sender, DataGridColumnEventArgs e)
-        {
-            // Code pour gérer la sorting
-        }
     }
 }
