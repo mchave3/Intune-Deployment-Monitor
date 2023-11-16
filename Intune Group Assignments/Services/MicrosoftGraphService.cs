@@ -104,7 +104,7 @@ public class MicrosoftGraphService
                 if (response.IsSuccessStatusCode)
                 {
 
-                    // Traitement des infos à faire dans cette partie
+                    // Traitement des infos à faire dans cette partie - surement un foreach à faire
 
                     var json = await response.Content.ReadAsStringAsync();
                     results.Add((Name, json)); // Store both the name and the JSON response
