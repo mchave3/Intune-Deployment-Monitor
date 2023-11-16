@@ -120,6 +120,7 @@ public class MicrosoftGraphService
 
     private async Task<List<(string PolicyName, string GroupId, string ResourceName)>> ProcessJsonResponse(string resourceName, string json)
     {
+        Debug.WriteLine($"JSON 2: {json}");
         var policiesResponse = JsonConvert.DeserializeObject<ConfigurationPoliciesResponse>(json);
         var result = new List<(string PolicyName, string GroupId, string ResourceName)>();
 
@@ -131,9 +132,16 @@ public class MicrosoftGraphService
                 foreach (var assignment in policy.Assignments)
                 {
                     var groupId = assignment.Target.GroupId;
+                    Debug.WriteLine($"GroupId: {groupId}");
                     var policyName = string.IsNullOrEmpty(policy.Name) ? "No DisplayName" : policy.Name;
+                    Debug.WriteLine($"PolicyName: {policyName}");
                     result.Add((policyName, groupId, resourceName));
+                    Debug.WriteLine($"Result: {result}");
                 }
+            }
+            else
+            {
+                Debug.WriteLine($"Assignments is null for {policy.Name}");
             }
         }
         return result;
@@ -159,8 +167,6 @@ public class MicrosoftGraphService
             ("deviceAppManagement/windowsManagedAppProtections", "Windows Managed App Protections")
         };
 
-        var results = new List<(string ResourceName, string JsonResponse)>();
-
         // Check if the token is near expiration and renew if necessary
         if (AuthMicrosoftService.IsTokenNearExpiry())
         {
@@ -176,7 +182,7 @@ public class MicrosoftGraphService
 
         foreach (var (Url, Name) in resources)
         {
-            var requestUrl = $"{baseGraphUrl}/{apiVersion}/{Url}?`$expand=assignments";
+            var requestUrl = $"{baseGraphUrl}/{apiVersion}/{Url}?expand=assignments";
             Debug.WriteLine($"Sending request to Microsoft Graph API: {requestUrl}");
 
             try
@@ -184,7 +190,9 @@ public class MicrosoftGraphService
                 var response = await client.GetAsync(requestUrl);
                 if (response.IsSuccessStatusCode)
                 {
+                    Debug.WriteLine($"Response received for {Name}");
                     var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"JSON 1: {json}");
                     allResults.AddRange((List<(string PolicyName, string GroupId, string ResourceName)>?)await ProcessJsonResponse(Name, json));
                 }
                 else
@@ -196,6 +204,10 @@ public class MicrosoftGraphService
             {
                 Debug.WriteLine($"Exception occurred while getting assignments for {Name}: {ex.Message}");
             }
+        }
+        foreach (var result in allResults)
+        {
+            Debug.WriteLine($"Policy Name: {result.PolicyName}, Group ID: {result.GroupId}, Resource Name: {result.ResourceName}");
         }
         return allResults;
     }
