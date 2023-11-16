@@ -65,6 +65,11 @@ public partial class MainViewModel : ObservableRecipient
 
     private async void ExecuteConnect()
     {
+        await ExecuteConnectAsync();
+    }
+
+    private async Task ExecuteConnectAsync()
+    {
         try
         {
             await AuthMicrosoftService.Login();
@@ -79,6 +84,11 @@ public partial class MainViewModel : ObservableRecipient
     }
 
     private async void ExecuteDisconnect()
+    {
+        await ExecuteDisconnectAsync();
+    }
+
+    private async Task ExecuteDisconnectAsync()
     {
         try
         {
