@@ -16,9 +16,9 @@ namespace Intune_Group_Assignments.ViewModels
             // Initialisez et peuplez MyCollectionViewSource avec vos données
             // Exemple :
             var data = new ObservableCollection<YourDataModel>();
-
-            // Ajoutez 10 valeurs à la collection de données
-            for (int i = 1; i <= 10; i++)
+          
+            // Add some sample data to the collection
+            for (int i = 1; i <= 50; i++)
             {
                 data.Add(new YourDataModel
                 {

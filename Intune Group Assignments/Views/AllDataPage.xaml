@@ -29,15 +29,18 @@
 
         <!-- DataGrid setup -->
         <Grid x:Name="DataGrid" Grid.Row="1">
-            <controls:DataGrid x:Name="DataGrid"
-                               AutoGenerateColumns="False"
-                               CanUserSortColumns="True"
-                               Sorting="DataGrid_OnSorting"
-                               ItemsSource="{Binding MyCollectionViewSource.View}">
+            <controls:DataGrid 
+                ItemsSource="{Binding SampleTable}"
+                AutoGenerateColumns="False"
+                CanUserSortColumns="True"
+                IsReadOnly="True">
                 <controls:DataGrid.Columns>
-                    <!-- Define your columns here -->
-                    <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" Tag="Name"/>
-                    <controls:DataGridTextColumn Header="Value" Binding="{Binding Value}" Tag="Value"/>
+                    <controls:DataGridTextColumn
+                        Header="Name" 
+                        Binding="{Binding Name}" />
+                    <controls:DataGridTextColumn 
+                        Header="Value" 
+                        Binding="{Binding Value}" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
         </Grid>
