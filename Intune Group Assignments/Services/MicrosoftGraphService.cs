@@ -11,12 +11,17 @@ public class MicrosoftGraphService
 {
     // Base URL for Microsoft Graph API
     private readonly string baseGraphUrl = "https://graph.microsoft.com";
-
     // API version for Microsoft Graph
     private readonly string apiVersion = "v1.0";
 
     public async Task<string> GetUserDisplayNameAsync()
     {
+        // Check if the token is near expiration and renew if necessary
+        if (AuthMicrosoftService.IsTokenNearExpiry())
+        {
+            await AuthMicrosoftService.RenewTokenSilently();
+        }
+
         // Retrieve the access token from AuthMicrosoftService
         var accessToken = AuthMicrosoftService.GraphApiAccessToken;
 

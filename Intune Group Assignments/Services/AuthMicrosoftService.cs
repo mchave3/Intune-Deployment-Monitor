@@ -11,6 +11,7 @@ internal class AuthMicrosoftService
     private const string ClientId = "4a033909-37a0-49f0-99fc-27a0268a606c";
     private const string RedirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
     private static readonly string Authority = "https://login.microsoftonline.com/organizations";
+    private static DateTimeOffset _tokenExpiration;
     private static readonly string[] scopes = new[]
     {
         "User.Read",
@@ -43,6 +44,39 @@ internal class AuthMicrosoftService
         get; private set;
     }
 
+    public static bool IsTokenNearExpiry()
+    {
+        // Define a threshold, e.g., 5 minutes
+        var expirationThreshold = TimeSpan.FromMinutes(5);
+        var isNearExpiry = DateTimeOffset.UtcNow.Add(expirationThreshold) >= _tokenExpiration;
+
+        // Log the check and its result
+        Debug.WriteLine($"Checking if token is near expiry. Threshold: {expirationThreshold}, Token Expiry: {_tokenExpiration}, Is Near Expiry: {isNearExpiry}");
+
+        return isNearExpiry;
+    }
+
+    public static async Task RenewTokenSilently()
+    {
+        try
+        {
+            var accounts = await PCA.GetAccountsAsync();
+            var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                                  .ExecuteAsync();
+
+            GraphApiAccessToken = result.AccessToken;
+            _tokenExpiration = result.ExpiresOn;
+
+            // Log successful renewal
+            Debug.WriteLine($"Token renewed successfully. New Expiry Time: {_tokenExpiration}");
+        }
+        catch (MsalUiRequiredException ex)
+        {
+            // Log the exception details
+            Debug.WriteLine($"Silent token renewal failed. Interactive authentication may be required. Exception: {ex.Message}");
+        }
+    }
+
     // Method to handle user login
     public static async Task Login()
     {
@@ -55,6 +89,7 @@ internal class AuthMicrosoftService
             GraphApiAccessToken = result.AccessToken;
 
             Debug.WriteLine($"Access Token: {result.AccessToken}");
+            Debug.WriteLine($"Token expire on: {result.ExpiresOn}");
         }
         catch (MsalUiRequiredException)
         {
@@ -64,8 +99,10 @@ internal class AuthMicrosoftService
                 var result = await PCA.AcquireTokenInteractive(scopes)
                                       .ExecuteAsync();
                 GraphApiAccessToken = result.AccessToken;
+                _tokenExpiration = result.ExpiresOn;
 
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
+                Debug.WriteLine($"Token expire on: {result.ExpiresOn}");
             }
             catch (MsalException ex)
             {
@@ -114,8 +151,10 @@ internal class AuthMicrosoftService
             {
                 var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault()).ExecuteAsync();
                 GraphApiAccessToken = result.AccessToken;
+                _tokenExpiration = result.ExpiresOn;
                 // If silent authentication is successful, return true
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
+                Debug.WriteLine($"Token expire on: {result.ExpiresOn}");
                 return true;
             }
             catch (MsalUiRequiredException)

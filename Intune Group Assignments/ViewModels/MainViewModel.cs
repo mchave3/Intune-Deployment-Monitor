@@ -21,6 +21,7 @@ public partial class MainViewModel : ObservableRecipient
 
         ConnectCommand = new RelayCommand(ExecuteConnect);
         DisconnectCommand = new RelayCommand(ExecuteDisconnect);
+        TestCommand = new RelayCommand(ExecuteTest);
         SilentLogin();
     }
 
@@ -31,6 +32,12 @@ public partial class MainViewModel : ObservableRecipient
     public ICommand DisconnectCommand
     {
         get;
+    }
+
+    public ICommand TestCommand
+    {
+    
+           get;
     }
 
     public Visibility ConnectButtonVisibility
@@ -125,5 +132,10 @@ public partial class MainViewModel : ObservableRecipient
     {
         ConnectButtonVisibility = isLoggedIn ? Visibility.Collapsed : Visibility.Visible;
         DisconnectButtonVisibility = isLoggedIn ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async void ExecuteTest()
+    {
+        DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
     }
 }
