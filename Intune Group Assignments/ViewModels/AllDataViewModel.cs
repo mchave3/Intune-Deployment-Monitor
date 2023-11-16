@@ -1,38 +1,62 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Data;
+using System.Threading.Tasks;
+using Intune_Group_Assignments.Services;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
-        public ObservableCollection<YourDataModel> SampleData
+        private readonly MicrosoftGraphService _microsoftGraphService;
+
+        public ObservableCollection<PolicyAssignment> PolicyAssignments
         {
             get; private set;
         }
 
+        public RelayCommand RefreshCommand
+        {
+            get;
+        }
+
         public AllDataViewModel()
         {
-            SampleData = new ObservableCollection<YourDataModel>();
-            for (int i = 1; i <= 50; i++)
+            _microsoftGraphService = new MicrosoftGraphService();
+            PolicyAssignments = new ObservableCollection<PolicyAssignment>();
+            RefreshCommand = new RelayCommand(LoadDataAsync);
+            LoadDataAsync();
+        }
+
+        private async void LoadDataAsync()
+        {
+            PolicyAssignments.Clear();  // Clear existing items before loading new data
+
+            var data = await _microsoftGraphService.GetAllDataAsync();
+            foreach (var item in data)
             {
-                SampleData.Add(new YourDataModel
+                PolicyAssignments.Add(new PolicyAssignment
                 {
-                    Name = $"Name {i}",
-                    Value = $"Value {i}"
+                    PolicyName = item.PolicyName,
+                    GroupId = item.GroupId,
+                    ResourceName = item.ResourceName
                 });
             }
         }
     }
 
-    public class YourDataModel
+    public class PolicyAssignment
     {
-        // Définissez les propriétés de votre modèle de données ici
-        public string Name
+        public string PolicyName
         {
             get; set;
         }
-        public string Value
+        public string GroupId
+        {
+            get; set;
+        }
+        public string ResourceName
         {
             get; set;
         }

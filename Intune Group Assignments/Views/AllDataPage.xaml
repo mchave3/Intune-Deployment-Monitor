@@ -11,15 +11,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- For Command Bar -->
             <RowDefinition Height="*"/>
-            <!-- For Data Grid -->
         </Grid.RowDefinitions>
         
         <Grid x:Name="CommandBar" Grid.Row="0">
             <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
                 <AppBarButton Icon="Add" Label="Add"/>
                 <AppBarButton Icon="Edit" Label="Edit"/>
+                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
                 <AppBarButton Icon="Share" Label="Share"/>
                 <CommandBar.SecondaryCommands>
                     <AppBarButton Icon="Setting" Label="Settings">
@@ -37,17 +36,14 @@
         <!-- DataGrid setup -->
         <Grid x:Name="DataGrid" Grid.Row="1">
             <controls:DataGrid 
-                ItemsSource="{Binding SampleData}"
+                ItemsSource="{Binding PolicyAssignments}"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="True"
                 IsReadOnly="True">
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn
-                        Header="Name" 
-                        Binding="{Binding Name}" />
-                    <controls:DataGridTextColumn 
-                        Header="Value" 
-                        Binding="{Binding Value}" />
+                    <controls:DataGridTextColumn Header="Policy Name" Binding="{Binding PolicyName}" />
+                    <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupId}" />
+                    <controls:DataGridTextColumn Header="Resource Name" Binding="{Binding ResourceName}" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
         </Grid>

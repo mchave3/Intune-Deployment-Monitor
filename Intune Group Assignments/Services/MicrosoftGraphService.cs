@@ -60,7 +60,86 @@ public class MicrosoftGraphService
         }
     }
 
-    public async Task<List<(string ResourceName, string JsonResponse)>> GetAllDataAsync()
+    public class ConfigurationPoliciesResponse
+    {
+        [JsonProperty("value")]
+        public List<ConfigurationPolicy> Value
+        {
+            get; set;
+        }
+    }
+
+    public class ConfigurationPolicy
+    {
+        public string Name
+        {
+            get; set;
+        }
+        public string Id
+        {
+            get; set;
+        }
+
+        [JsonProperty("assignments")]
+        public List<Assignment> Assignments
+        {
+            get; set;
+        }
+    }
+
+    public class Assignment
+    {
+        public string Id
+        {
+            get; set;
+        }
+        public string Source
+        {
+            get; set;
+        }
+        public string SourceId
+        {
+            get; set;
+        }
+
+        [JsonProperty("target")]
+        public Target Target
+        {
+            get; set;
+        }
+    }
+
+    public class Target
+    {
+        [JsonProperty("groupId")]
+        public string GroupId
+        {
+            get; set;
+        }
+    }
+
+    private async Task<List<(string PolicyName, string GroupId, string ResourceName)>> ProcessJsonResponse(string resourceName, string json)
+    {
+        var policiesResponse = JsonConvert.DeserializeObject<ConfigurationPoliciesResponse>(json);
+        var result = new List<(string PolicyName, string GroupId, string ResourceName)>();
+
+        foreach (var policy in policiesResponse.Value)
+        {
+            // Check if Assignments is null
+            if (policy.Assignments != null)
+            {
+                foreach (var assignment in policy.Assignments)
+                {
+                    var groupId = assignment.Target.GroupId;
+                    var policyName = string.IsNullOrEmpty(policy.Name) ? "No DisplayName" : policy.Name;
+                    result.Add((policyName, groupId, resourceName));
+                }
+            }
+        }
+        return result;
+    }
+
+    public async Task<List<(string PolicyName, string GroupId, string ResourceName)>> GetAllDataAsync()
     {
         var resources = new List<(string Url, string Name)>
         {
@@ -93,6 +172,8 @@ public class MicrosoftGraphService
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
+        var allResults = new List<(string PolicyName, string GroupId, string ResourceName)>();
+
         foreach (var (Url, Name) in resources)
         {
             var requestUrl = $"{baseGraphUrl}/{apiVersion}/{Url}?`$expand=assignments";
@@ -103,11 +184,8 @@ public class MicrosoftGraphService
                 var response = await client.GetAsync(requestUrl);
                 if (response.IsSuccessStatusCode)
                 {
-
-                    // Traitement des infos à faire dans cette partie - surement un foreach à faire
-
                     var json = await response.Content.ReadAsStringAsync();
-                    results.Add((Name, json)); // Store both the name and the JSON response
+                    allResults.AddRange((List<(string PolicyName, string GroupId, string ResourceName)>?)await ProcessJsonResponse(Name, json));
                 }
                 else
                 {
@@ -119,6 +197,6 @@ public class MicrosoftGraphService
                 Debug.WriteLine($"Exception occurred while getting assignments for {Name}: {ex.Message}");
             }
         }
-        return results;
+        return allResults;
     }
 }
