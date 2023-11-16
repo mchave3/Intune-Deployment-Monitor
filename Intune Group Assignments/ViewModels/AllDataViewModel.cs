@@ -1,35 +1,39 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Microsoft.UI.Xaml.Data;
 
 namespace Intune_Group_Assignments.ViewModels
 {
-    public partial class AllDataViewModel : ObservableObject
+    public class AllDataViewModel
     {
-        private ObservableCollection<SampleData> _sampleTable;
-
-        public ObservableCollection<SampleData> SampleTable
+        public ICollectionView MyCollectionViewSource
         {
-            get => _sampleTable;
-            set => SetProperty(ref _sampleTable, value);
+            get; set;
         }
 
         public AllDataViewModel()
         {
-            _sampleTable = new ObservableCollection<SampleData>();
-
+            // Initialisez et peuplez MyCollectionViewSource avec vos données
+            // Exemple :
+            var data = new ObservableCollection<YourDataModel>();
+          
             // Add some sample data to the collection
             for (int i = 1; i <= 50; i++)
             {
-                _sampleTable.Add(new SampleData { Name = $"Boat {i}", Value = $"Value {i}" });
+                data.Add(new YourDataModel
+                {
+                    Name = $"Name {i}",
+                    Value = $"Value {i}"
+                });
             }
 
-            // ... add more data as needed
+            MyCollectionViewSource = new CollectionViewSource { Source = data }.View;
         }
     }
 
-    // Define a simple data model for the sample data
-    public class SampleData
+    public class YourDataModel
     {
+        // Définissez les propriétés de votre modèle de données ici
         public string Name
         {
             get; set;
