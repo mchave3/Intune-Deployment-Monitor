@@ -79,14 +79,26 @@ public partial class MainViewModel : ObservableRecipient
     {
         try
         {
-            await AuthMicrosoftService.Login();
-            DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
-            UpdateUI(true);
+            // Attempt to login and check if it was successful
+            bool loginSuccessful = await AuthMicrosoftService.Login();
+            if (loginSuccessful)
+            {
+                // If login is successful, retrieve the user's display name and update the UI
+                DisplayName = await _microsoftGraphService.GetUserDisplayNameAsync();
+                UpdateUI(true); // isLoggedIn is set to true
+            }
+            else
+            {
+                // If login was not successful, ensure that the UI is set to a logged out state
+                DisplayName = string.Empty;
+                UpdateUI(false); // isLoggedIn is set to false
+            }
         }
         catch (Exception ex)
         {
+            // If an exception is caught, log it and set the UI to a logged out state
             Debug.WriteLine($"Error during login: {ex}");
-            UpdateUI(false);
+            UpdateUI(false); // isLoggedIn is set to false
         }
     }
 

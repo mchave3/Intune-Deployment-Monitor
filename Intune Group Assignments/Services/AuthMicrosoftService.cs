@@ -78,8 +78,9 @@ internal class AuthMicrosoftService
     }
 
     // Method to handle user login
-    public static async Task Login()
+    public static async Task<bool> Login()
     {
+        bool isAuthenticated = false;
         try
         {
             // Attempt to acquire an access token silently
@@ -87,6 +88,7 @@ internal class AuthMicrosoftService
             var result = await PCA.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                   .ExecuteAsync();
             GraphApiAccessToken = result.AccessToken;
+            isAuthenticated = true; // Set to true if silent authentication succeeds
 
             Debug.WriteLine($"Access Token: {result.AccessToken}");
             Debug.WriteLine($"Token expire on: {result.ExpiresOn}");
@@ -100,19 +102,30 @@ internal class AuthMicrosoftService
                                       .ExecuteAsync();
                 GraphApiAccessToken = result.AccessToken;
                 _tokenExpiration = result.ExpiresOn;
+                isAuthenticated = true; // Set to true if interactive authentication succeeds
 
                 Debug.WriteLine($"Access Token: {result.AccessToken}");
                 Debug.WriteLine($"Token expire on: {result.ExpiresOn}");
             }
             catch (MsalException ex)
             {
-                Debug.WriteLine($"Error acquiring token interactively: {ex.Message}");
+                if (ex.ErrorCode == "authentication_canceled") // Check if the error code indicates a cancellation
+                {
+                    Debug.WriteLine("Authentication was canceled by the user.");
+                    isAuthenticated = false; // Set to false if authentication was canceled
+                }
+                else
+                {
+                    Debug.WriteLine($"Error acquiring token interactively: {ex.Message}");
+                }
             }
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error during authentication: {ex.Message}");
         }
+
+        return isAuthenticated; // Return the authentication status
     }
 
     // Method to handle user logout
