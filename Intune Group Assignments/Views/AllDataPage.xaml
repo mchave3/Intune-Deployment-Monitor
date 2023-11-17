@@ -4,17 +4,33 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
-      xmlns:viewmodels="using:Intune_Group_Assignments.ViewModels" 
+      xmlns:viewmodels="using:Intune_Group_Assignments.ViewModels"
+      xmlns:converters="using:Intune_Group_Assignments.Converters"
       d:DataContext="{d:DesignInstance Type=viewmodels:AllDataViewModel}"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid Padding="0,0,0,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Grid x:Name="CommandBar" Grid.Row="0">
+
+        <!-- ProgressRing -->
+        <ProgressRing IsActive="{Binding IsLoading}"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Grid.RowSpan="2"/>
+        <!-- Spans both rows -->
+
+        <!-- CommandBar -->
+        <Grid x:Name="CommandBar" Grid.Row="0"
+              Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
                 <AppBarButton Icon="Add" Label="Add"/>
                 <AppBarButton Icon="Edit" Label="Edit"/>
@@ -33,8 +49,9 @@
             </CommandBar>
         </Grid>
 
-        <!-- DataGrid setup -->
-        <Grid x:Name="DataGrid" Grid.Row="1">
+        <!-- DataGrid -->
+        <Grid x:Name="DataGrid" Grid.Row="1"
+              Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <controls:DataGrid 
                 ItemsSource="{Binding PolicyAssignments}"
                 AutoGenerateColumns="False"

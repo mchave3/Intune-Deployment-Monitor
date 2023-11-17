@@ -2,12 +2,20 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Intune_Group_Assignments.Models;
+using CommunityToolkit.WinUI.UI.Controls;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
         private readonly AllDataModel _allDataModel;
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
 
         public ObservableCollection<PolicyAssignment> PolicyAssignments
         {
@@ -29,7 +37,8 @@ namespace Intune_Group_Assignments.ViewModels
 
         private async void LoadDataAsync()
         {
-            PolicyAssignments.Clear();  // Clear existing items before loading new data
+            IsLoading = true;
+            PolicyAssignments.Clear();
 
             var data = await _allDataModel.GetAllDataAsync();
             foreach (var item in data)
@@ -41,6 +50,7 @@ namespace Intune_Group_Assignments.ViewModels
                     ResourceName = item.ResourceName
                 });
             }
+            IsLoading = false;
         }
     }
 
