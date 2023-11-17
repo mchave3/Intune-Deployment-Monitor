@@ -1,15 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml.Data;
-using System.Threading.Tasks;
-using Intune_Group_Assignments.Services;
+using Intune_Group_Assignments.Models;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
-        private readonly MicrosoftGraphService _microsoftGraphService;
+        private readonly AllDataModel _allDataModel;
 
         public ObservableCollection<PolicyAssignment> PolicyAssignments
         {
@@ -23,7 +21,7 @@ namespace Intune_Group_Assignments.ViewModels
 
         public AllDataViewModel()
         {
-            _microsoftGraphService = new MicrosoftGraphService();
+            _allDataModel = new AllDataModel();
             PolicyAssignments = new ObservableCollection<PolicyAssignment>();
             RefreshCommand = new RelayCommand(LoadDataAsync);
             LoadDataAsync();
@@ -33,7 +31,7 @@ namespace Intune_Group_Assignments.ViewModels
         {
             PolicyAssignments.Clear();  // Clear existing items before loading new data
 
-            var data = await _microsoftGraphService.GetAllDataAsync();
+            var data = await _allDataModel.GetAllDataAsync();
             foreach (var item in data)
             {
                 PolicyAssignments.Add(new PolicyAssignment
