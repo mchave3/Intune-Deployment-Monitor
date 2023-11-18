@@ -45,7 +45,7 @@ namespace Intune_Group_Assignments.ViewModels
             {
                 PolicyAssignments.Add(new PolicyAssignment
                 {
-                    PolicyName = item.PolicyName,
+                    ResourceType = item.ResourceType,
                     GroupId = item.GroupId,
                     ResourceName = item.ResourceName
                 });
@@ -56,7 +56,7 @@ namespace Intune_Group_Assignments.ViewModels
 
     public class PolicyAssignment
     {
-        public string PolicyName
+        public string ResourceType
         {
             get; set;
         }

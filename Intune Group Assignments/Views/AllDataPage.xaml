@@ -58,7 +58,7 @@
                 CanUserSortColumns="True"
                 IsReadOnly="True">
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Header="Policy Name" Binding="{Binding PolicyName}" />
+                    <controls:DataGridTextColumn Header="ResourceType" Binding="{Binding ResourceType}" />
                     <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupId}" />
                     <controls:DataGridTextColumn Header="Resource Name" Binding="{Binding ResourceName}" />
                 </controls:DataGrid.Columns>

@@ -12,22 +12,24 @@ namespace Intune_Group_Assignments.Models
         private readonly string baseGraphUrl = "https://graph.microsoft.com";
         private readonly string apiVersion = "Beta";
 
-        public class ConfigurationPoliciesResponse
+        // Represents a generic response structure from Graph API
+        public class GraphApiResponse
         {
             [JsonProperty("value")]
-            public List<ConfigurationPolicy> Value
+            public List<GraphResource> Resources
             {
                 get; set;
             }
         }
 
-        public class ConfigurationPolicy
+        // Represents a generic resource from Graph API
+        public class GraphResource
         {
             public string Name
             {
                 get; set;
             }
-            public string Id
+            public string DisplayName
             {
                 get; set;
             }
@@ -36,6 +38,12 @@ namespace Intune_Group_Assignments.Models
             public List<Assignment> Assignments
             {
                 get; set;
+            }
+
+            // Returns DisplayName if available, otherwise Name
+            public string GetEffectiveName()
+            {
+                return !string.IsNullOrEmpty(DisplayName) ? DisplayName : Name;
             }
         }
 
@@ -70,12 +78,12 @@ namespace Intune_Group_Assignments.Models
             }
         }
 
-        public async Task<List<(string PolicyName, string GroupId, string ResourceName)>> GetAllDataAsync()
+        public async Task<List<(string ResourceName, string GroupId, string ResourceType)>> GetAllDataAsync()
         {
             await RenewTokenIfNeeded();
 
             using var client = CreateHttpClient();
-            var allResults = new List<(string PolicyName, string GroupId, string ResourceName)>();
+            var allResults = new List<(string ResourceName, string GroupId, string ResourceType)>();
 
             foreach (var (Url, Name) in GetResources())
             {
@@ -122,7 +130,7 @@ namespace Intune_Group_Assignments.Models
             };
         }
 
-        private async Task ProcessResource(HttpClient client, string url, string name, List<(string PolicyName, string GroupId, string ResourceName)> allResults)
+        private async Task ProcessResource(HttpClient client, string url, string resourceName, List<(string ResourceName, string GroupId, string ResourceType)> allResults)
         {
             var requestUrl = $"{baseGraphUrl}/{apiVersion}/{url}?expand=assignments";
             try
@@ -131,43 +139,43 @@ namespace Intune_Group_Assignments.Models
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    allResults.AddRange(await ProcessJsonResponse(name, json));
+                    allResults.AddRange(await ProcessJsonResponse(resourceName, json));
                 }
                 else
                 {
-                    Debug.WriteLine($"Error in response for {name}. Status Code: {response.StatusCode}");
+                    Debug.WriteLine($"Error in response for {resourceName}. Status Code: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Exception occurred while getting assignments for {name}: {ex.Message}");
+                Debug.WriteLine($"Exception occurred while getting assignments for {resourceName}: {ex.Message}");
             }
         }
 
-        private async Task<List<(string PolicyName, string GroupId, string ResourceName)>> ProcessJsonResponse(string resourceName, string json)
+        private async Task<List<(string ResourceName, string GroupId, string ResourceType)>> ProcessJsonResponse(string resourceName, string json)
         {
-            var policiesResponse = JsonConvert.DeserializeObject<ConfigurationPoliciesResponse>(json);
-            var result = new List<(string PolicyName, string GroupId, string ResourceName)>();
+            var response = JsonConvert.DeserializeObject<GraphApiResponse>(json);
+            var result = new List<(string ResourceName, string GroupId, string ResourceType)>();
 
-            foreach (var policy in policiesResponse.Value)
+            foreach (var resource in response.Resources)
             {
-                if (policy.Assignments == null) continue;
+                if (resource.Assignments == null) continue;
 
-                foreach (var assignment in policy.Assignments)
+                foreach (var assignment in resource.Assignments)
                 {
                     var groupId = assignment.Target.GroupId;
-                    var policyName = string.IsNullOrEmpty(policy.Name) ? "No DisplayName" : policy.Name;
-                    result.Add((policyName, groupId, resourceName));
+                    var effectiveName = resource.GetEffectiveName();
+                    result.Add((effectiveName, groupId, resourceName));
                 }
             }
             return result;
         }
 
-        private void DebugAllResults(List<(string PolicyName, string GroupId, string ResourceName)> allResults)
+        private void DebugAllResults(List<(string ResourceName, string GroupId, string ResourceType)> allResults)
         {
             foreach (var result in allResults)
             {
-                Debug.WriteLine($"Policy Name: {result.PolicyName}, Group ID: {result.GroupId}, Resource Name: {result.ResourceName}");
+                Debug.WriteLine($"Resource Name: {result.ResourceName}, Group ID: {result.GroupId}, Resource Type: {result.ResourceType}");
             }
         }
     }
