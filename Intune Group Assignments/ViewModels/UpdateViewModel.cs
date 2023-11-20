@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml.Controls;
 using System.Xml;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.UI.Xaml;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 public class UpdateViewModel : INotifyPropertyChanged
 {
@@ -54,6 +56,11 @@ public class UpdateViewModel : INotifyPropertyChanged
                     CloseButtonText = "Cancel"
                 };
 
+                if (Window.Current != null)
+                {
+                    dialog.XamlRoot = Window.Current.Content.XamlRoot;
+                }
+
                 var result = await dialog.ShowAsync();
 
                 if (result == ContentDialogResult.Primary)
@@ -79,6 +86,11 @@ public class UpdateViewModel : INotifyPropertyChanged
                 CloseButtonText = "Ok"
             };
 
+            if (Window.Current != null)
+            {
+                errorDialog.XamlRoot = Window.Current.Content.XamlRoot;
+            }
+
             await errorDialog.ShowAsync();
         }
     }
@@ -102,7 +114,7 @@ public class UpdateViewModel : INotifyPropertyChanged
     {
         var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         var directory = Path.GetDirectoryName(assemblyLocation);
-        var manifestPath = Path.Combine(directory, "Package.appxmanifest");
+        var manifestPath = Path.Combine(directory, "..\\..\\..\\Package.appxmanifest");
 
         var xmlDoc = new XmlDocument();
         xmlDoc.Load(manifestPath);
