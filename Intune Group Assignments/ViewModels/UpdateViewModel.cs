@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Xml;
 using System.IO;
+using System.Diagnostics;
 
 public class UpdateViewModel : INotifyPropertyChanged
 {
@@ -39,16 +40,16 @@ public class UpdateViewModel : INotifyPropertyChanged
     {
         try
         {
-            var latestVersion = await _updateService.CheckForUpdatesAsync();
+            var updateInfo = await _updateService.CheckForUpdatesAsync();
             var currentVersion = GetCurrentVersion();
 
-            if (IsNewVersionAvailable(currentVersion, latestVersion))
+            if (IsNewVersionAvailable(currentVersion, updateInfo.Version))
             {
-                LatestVersion = latestVersion;
+                LatestVersion = updateInfo.Version;
                 var dialog = new ContentDialog
                 {
                     Title = "Update Available",
-                    Content = $"A new version {latestVersion} is available. Would you like to update now?",
+                    Content = $"A new version {updateInfo.Version} is available. Would you like to update now?",
                     PrimaryButtonText = "Yes",
                     SecondaryButtonText = "Cancel"
                 };
@@ -57,16 +58,20 @@ public class UpdateViewModel : INotifyPropertyChanged
 
                 if (result == ContentDialogResult.Primary)
                 {
-                    await PerformUpdate(latestVersion);
+                    await PerformUpdate(updateInfo.DownloadUrl);
                 }
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            // Log the exception for debugging purposes
+            Debug.WriteLine($"An error occurred while checking for updates: {ex.Message}");
+
+            // Inform the user that an error occurred
             var errorDialog = new ContentDialog
             {
                 Title = "Error",
-                Content = "An error occurred while checking for updates.",
+                Content = "An error occurred while checking for updates. Please try again later.",
                 CloseButtonText = "Ok"
             };
 
@@ -99,9 +104,8 @@ public class UpdateViewModel : INotifyPropertyChanged
         return version;
     }
 
-    private async Task PerformUpdate(string latestVersion)
+    private async Task PerformUpdate(string downloadUrl)
     {
-        var downloadUrl = _updateService.GetDownloadUrl(latestVersion);
         var downloadedFilePath = await _updateService.DownloadUpdateAsync(downloadUrl);
         _updateService.InstallUpdate(downloadedFilePath);
     }

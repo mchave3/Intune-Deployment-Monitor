@@ -4,19 +4,46 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using CommunityToolkit.WinUI.Helpers;
 
 public class UpdateService
 {
     private const string LatestReleaseUrl = "https://api.github.com/repos/mchave3/Intune-Group-Assignments/releases/latest";
 
-    public async Task<string> CheckForUpdatesAsync()
+    public class UpdateInfo
+    {
+        public string Version
+        {
+            get; set;
+        }
+        public string DownloadUrl
+        {
+            get; set;
+        }
+    }
+
+    public async Task<UpdateInfo> CheckForUpdatesAsync()
     {
         using (var client = new HttpClient())
         {
             client.DefaultRequestHeaders.Add("User-Agent", "request");
             var response = await client.GetStringAsync(LatestReleaseUrl);
             dynamic latestRelease = JsonConvert.DeserializeObject(response);
-            return latestRelease.tag_name;
+
+            string tagName = latestRelease.tag_name;
+            if (tagName.StartsWith("v"))
+            {
+                tagName = tagName.Substring(1);
+            }
+
+            // Assuming the .msi file is the first asset
+            string downloadUrl = latestRelease.assets[0].browser_download_url;
+
+            return new UpdateInfo
+            {
+                Version = tagName,
+                DownloadUrl = downloadUrl
+            };
         }
     }
 
