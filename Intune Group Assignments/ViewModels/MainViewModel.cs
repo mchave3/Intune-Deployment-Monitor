@@ -10,7 +10,7 @@ namespace Intune_Group_Assignments.ViewModels;
 
 public partial class MainViewModel : ObservableRecipient
 {
-    private readonly UpdateService _updateService;
+    private readonly UpdateViewModel _updateViewModel;
     private readonly MicrosoftGraphService _microsoftGraphService;
 
     private Visibility _connectButtonVisibility = Visibility.Visible;
@@ -19,7 +19,7 @@ public partial class MainViewModel : ObservableRecipient
 
     public MainViewModel()
     {
-        _updateService = new UpdateService();
+        _updateViewModel = new UpdateViewModel();
         _microsoftGraphService = new MicrosoftGraphService();
 
         CheckForUpdatesAsync();
@@ -59,7 +59,7 @@ public partial class MainViewModel : ObservableRecipient
 
     private async void CheckForUpdatesAsync()
     {
-        await _updateService.CheckForUpdatesAsync();
+        await _updateViewModel.CheckForUpdates();
     }
 
     public Visibility WelcomeMessageVisibility { get; private set; } = Visibility.Collapsed;

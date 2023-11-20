@@ -51,7 +51,7 @@ public class UpdateViewModel : INotifyPropertyChanged
                     Title = "Update Available",
                     Content = $"A new version {updateInfo.Version} is available. Would you like to update now?",
                     PrimaryButtonText = "Yes",
-                    SecondaryButtonText = "Cancel"
+                    CloseButtonText = "Cancel"
                 };
 
                 var result = await dialog.ShowAsync();
@@ -60,6 +60,10 @@ public class UpdateViewModel : INotifyPropertyChanged
                 {
                     await PerformUpdate(updateInfo.DownloadUrl);
                 }
+            }
+            else
+            {
+                Debug.WriteLine("No new version available");
             }
         }
         catch (Exception ex)
@@ -96,7 +100,10 @@ public class UpdateViewModel : INotifyPropertyChanged
 
     private string GetCurrentVersion()
     {
-        var manifestPath = Path.Combine(Environment.CurrentDirectory, "Package.appxmanifest");
+        var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var directory = Path.GetDirectoryName(assemblyLocation);
+        var manifestPath = Path.Combine(directory, "Package.appxmanifest");
+
         var xmlDoc = new XmlDocument();
         xmlDoc.Load(manifestPath);
         var identityNode = xmlDoc.DocumentElement.SelectSingleNode("/Package/Identity");
