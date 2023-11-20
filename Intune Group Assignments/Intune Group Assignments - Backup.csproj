@@ -14,7 +14,7 @@
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <FileVersion></FileVersion>
-    <Version>0.1.0</Version>
+    <Version>$(VersionPrefix)</Version>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\logo-hFTJgDNbK-transformed.png" />

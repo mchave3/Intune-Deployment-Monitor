@@ -22,8 +22,6 @@ public partial class MainViewModel : ObservableRecipient
         _updateViewModel = new UpdateViewModel();
         _microsoftGraphService = new MicrosoftGraphService();
 
-        CheckForUpdatesAsync();
-
         ConnectCommand = new RelayCommand(ExecuteConnect);
         DisconnectCommand = new RelayCommand(ExecuteDisconnect);
         TestCommand = new RelayCommand(ExecuteTest);
@@ -57,9 +55,9 @@ public partial class MainViewModel : ObservableRecipient
         set => SetProperty(ref _disconnectButtonVisibility, value);
     }
 
-    private async void CheckForUpdatesAsync()
+    public async Task CheckForUpdates(UIElement uiElement)
     {
-        await _updateViewModel.CheckForUpdates();
+        await _updateViewModel.CheckForUpdates(uiElement);
     }
 
     public Visibility WelcomeMessageVisibility { get; private set; } = Visibility.Collapsed;

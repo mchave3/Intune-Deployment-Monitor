@@ -35,10 +35,9 @@ public class UpdateViewModel : INotifyPropertyChanged
     public UpdateViewModel()
     {
         _updateService = new UpdateService();
-        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdates());
     }
 
-    public async Task CheckForUpdates()
+    public async Task CheckForUpdates(UIElement uiElement)
     {
         try
         {
@@ -56,9 +55,9 @@ public class UpdateViewModel : INotifyPropertyChanged
                     CloseButtonText = "Cancel"
                 };
 
-                if (Window.Current != null)
+                if (uiElement.XamlRoot != null)
                 {
-                    dialog.XamlRoot = Window.Current.Content.XamlRoot;
+                    dialog.XamlRoot = uiElement.XamlRoot;
                 }
 
                 var result = await dialog.ShowAsync();
@@ -86,9 +85,9 @@ public class UpdateViewModel : INotifyPropertyChanged
                 CloseButtonText = "Ok"
             };
 
-            if (Window.Current != null)
+            if (uiElement.XamlRoot != null)
             {
-                errorDialog.XamlRoot = Window.Current.Content.XamlRoot;
+                errorDialog.XamlRoot = uiElement.XamlRoot;
             }
 
             await errorDialog.ShowAsync();
@@ -112,15 +111,32 @@ public class UpdateViewModel : INotifyPropertyChanged
 
     private string GetCurrentVersion()
     {
-        var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        var directory = Path.GetDirectoryName(assemblyLocation);
-        var manifestPath = Path.Combine(directory, "..\\..\\..\\Package.appxmanifest");
+        // Path to the executable
+        string exePath = @"C:\Program Files\Mickael CHAVE\Intune Group Assignments\Intune Group Assignments.exe";
 
-        var xmlDoc = new XmlDocument();
-        xmlDoc.Load(manifestPath);
-        var identityNode = xmlDoc.DocumentElement.SelectSingleNode("/Package/Identity");
-        var version = identityNode.Attributes["Version"].Value;
-        return version;
+        Debug.WriteLine($"Checking version for executable at: {exePath}");
+
+        // Check if the file exists
+        if (File.Exists(exePath))
+        {
+            Debug.WriteLine("Executable found. Retrieving file version information...");
+
+            // Get the version information of the file
+            var versionInfo = FileVersionInfo.GetVersionInfo(exePath);
+
+            // Return the file version
+            string version = versionInfo.FileVersion;
+            Debug.WriteLine($"File version retrieved: {version}");
+            return version;
+        }
+        else
+        {
+            // Handle the case where the file does not exist
+            Debug.WriteLine("Executable not found. Returning default version value.");
+
+            // For example, return an empty string or a default value
+            return string.Empty;
+        }
     }
 
     private async Task PerformUpdate(string downloadUrl)
