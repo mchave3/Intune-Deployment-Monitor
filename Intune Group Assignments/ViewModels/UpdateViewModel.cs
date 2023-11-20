@@ -36,7 +36,7 @@ public class UpdateViewModel : INotifyPropertyChanged
         CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdates());
     }
 
-    private async Task CheckForUpdates()
+    public async Task CheckForUpdates()
     {
         try
         {

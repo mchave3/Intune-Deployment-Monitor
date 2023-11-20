@@ -10,14 +10,19 @@ namespace Intune_Group_Assignments.ViewModels;
 
 public partial class MainViewModel : ObservableRecipient
 {
+    private readonly UpdateService _updateService;
     private readonly MicrosoftGraphService _microsoftGraphService;
+
     private Visibility _connectButtonVisibility = Visibility.Visible;
     private Visibility _disconnectButtonVisibility = Visibility.Collapsed;
     private string _displayName;
 
     public MainViewModel()
     {
+        _updateService = new UpdateService();
         _microsoftGraphService = new MicrosoftGraphService();
+
+        CheckForUpdatesAsync();
 
         ConnectCommand = new RelayCommand(ExecuteConnect);
         DisconnectCommand = new RelayCommand(ExecuteDisconnect);
@@ -50,6 +55,11 @@ public partial class MainViewModel : ObservableRecipient
     {
         get => _disconnectButtonVisibility;
         set => SetProperty(ref _disconnectButtonVisibility, value);
+    }
+
+    private async void CheckForUpdatesAsync()
+    {
+        await _updateService.CheckForUpdatesAsync();
     }
 
     public Visibility WelcomeMessageVisibility { get; private set; } = Visibility.Collapsed;
