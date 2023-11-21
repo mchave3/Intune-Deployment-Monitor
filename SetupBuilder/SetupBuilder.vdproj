@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -190,8 +198,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Intune Group Assignments"
-        "ProductCode" = "8:{7E7CDE87-3AE2-467E-99DA-FFA96DFC5702}"
-        "PackageCode" = "8:{B7298D5A-922E-42C4-BC0E-3D05B419701F}"
+        "ProductCode" = "8:{B0001532-BD3A-4734-BCD6-F798DD1F1187}"
+        "PackageCode" = "8:{6F9F7EB7-9CF7-498A-86BE-112B72278160}"
         "UpgradeCode" = "8:{9604CEF8-CDF1-48DC-9A6E-818568A6DA29}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -726,7 +734,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9FD662A7B2F349F38BCA18908738D361"
             {
-            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.19041.0\\win10-x64\\apphost.exe"
+            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.19041.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
