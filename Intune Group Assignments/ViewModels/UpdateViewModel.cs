@@ -61,6 +61,7 @@ public class UpdateViewModel : INotifyPropertyChanged
                 }
 
                 var result = await dialog.ShowAsync();
+                Debug.WriteLine($"Dialog result: {result}");
 
                 if (result == ContentDialogResult.Primary)
                 {
@@ -91,6 +92,7 @@ public class UpdateViewModel : INotifyPropertyChanged
             }
 
             await errorDialog.ShowAsync();
+            Debug.WriteLine("Error dialog shown");
         }
     }
 
@@ -142,6 +144,7 @@ public class UpdateViewModel : INotifyPropertyChanged
     private async Task PerformUpdate(string downloadUrl)
     {
         var downloadedFilePath = await _updateService.DownloadUpdateAsync(downloadUrl);
+        Debug.WriteLine($"Downloaded file path: {downloadedFilePath}");
         _updateService.InstallUpdate(downloadedFilePath);
     }
 

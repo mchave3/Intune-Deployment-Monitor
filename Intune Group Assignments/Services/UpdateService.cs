@@ -31,17 +31,22 @@ public class UpdateService
                 client.DefaultRequestHeaders.Add("User-Agent", "request");
 
                 var response = await client.GetStringAsync(LatestReleaseUrl);
+                Debug.WriteLine(response);
                 dynamic latestRelease = JsonConvert.DeserializeObject(response);
 
                 string tagName = latestRelease.tag_name;
+                Debug.WriteLine(tagName);
                 if (tagName.StartsWith("v"))
                 {
                     tagName = tagName.Substring(1);
+                    Debug.WriteLine(tagName);
                 }
 
                 // Assuming the .msi file is the first asset
                 string downloadUrl = latestRelease.assets[0].browser_download_url;
+                Debug.WriteLine(downloadUrl);
 
+                Debug.WriteLine($"Latest version: {tagName}");
                 return new UpdateInfo
                 {
                     Version = tagName,
@@ -66,10 +71,11 @@ public class UpdateService
             using (var httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
+                Debug.WriteLine(response);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception("Error downloading the update.");
+                    Debug.WriteLine("Error downloading the update.");
                 }
 
                 using (var contentStream = await response.Content.ReadAsStreamAsync())
@@ -78,7 +84,7 @@ public class UpdateService
                     await contentStream.CopyToAsync(fileStream);
                 }
             }
-
+            Debug.WriteLine($"Update downloaded to {fileName}");
             return fileName;
         }
         catch (Exception ex)
@@ -88,7 +94,6 @@ public class UpdateService
         }
     }
 
-
     public void InstallUpdate(string filePath)
     {
         try
@@ -96,10 +101,25 @@ public class UpdateService
             var processStartInfo = new ProcessStartInfo
             {
                 FileName = filePath,
-                Arguments = "/silent",
+                Arguments = "/passive",
                 UseShellExecute = true
             };
-            Process.Start(processStartInfo);
+            Debug.WriteLine($"Starting the installer: {filePath}");
+            Debug.WriteLine($"Arguments: {processStartInfo.Arguments}");
+
+            // Launch the installation process and wait for it to complete
+            Debug.WriteLine("Starting the installation process...");
+            using (var process = Process.Start(processStartInfo))
+            {
+                Debug.WriteLine("Waiting for the installation process to complete...");
+                process.WaitForExit(); // Wait for the installation process to complete
+                Debug.WriteLine("Installation process completed.");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle potential exceptions during the process launch
+            Debug.WriteLine($"Error occurred while installing the update: {ex.Message}");
         }
         finally
         {
@@ -108,7 +128,9 @@ public class UpdateService
             {
                 try
                 {
+                    Debug.WriteLine($"Deleting the temporary file: {filePath}");
                     File.Delete(filePath);
+                    Debug.WriteLine("The temporary file has been deleted");
                 }
                 catch (Exception ex)
                 {
