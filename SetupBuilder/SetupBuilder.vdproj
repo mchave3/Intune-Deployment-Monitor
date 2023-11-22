@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
+        "MsmKey" = "8:_3870BB6F29124A4BAD631BCE13F43E03"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -324,7 +324,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4D6245E288A24EDBB5FE267720008563"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_602939D9DBE0432F8DAE07CF1657BA88"
             {
             "Name" = "8:Intune Group Assignments"
             "Arguments" = "8:"
@@ -332,13 +332,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
+            "Target" = "8:_3870BB6F29124A4BAD631BCE13F43E03"
             "Folder" = "8:_E2C57D53E0254BD3B30E8FF50EC75359"
             "WorkingFolder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
             "Icon" = "8:_99E095304D6D46C1A84140CB208C27EC"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7A74254CAC574608921140DD9D47F71D"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E43C3EBD67D6428EB430B3B44077D42C"
             {
             "Name" = "8:Intune Group Assignments"
             "Arguments" = "8:"
@@ -346,7 +346,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
+            "Target" = "8:_3870BB6F29124A4BAD631BCE13F43E03"
             "Folder" = "8:_9E1A2CC0D4C540D486150D384D2C7F69"
             "WorkingFolder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
             "Icon" = "8:_99E095304D6D46C1A84140CB208C27EC"
@@ -751,9 +751,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_005E8DEBB1BB4B818DBF2951E5636C83"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3870BB6F29124A4BAD631BCE13F43E03"
             {
-            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.22621.0\\win-x64\\apphost.exe"
+            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.22621.0\\win10-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
@@ -771,7 +771,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
+            "OutputConfiguration" = "8:Release|x64"
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{AB27A904-D667-41F0-9AE9-928429EFD917}"
             "ShowKeyOutput" = "11:TRUE"
