@@ -2,23 +2,24 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">All</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>ff6726a8-b9d5-4065-b892-d5fac75f0e12</ProjectGuid>
+    <ProjectGuid>c8df1603-64dd-43c7-8cb4-f023d976e5cb</ProjectGuid>
     <OutputType>msi</OutputType>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Advanced Installer Builder.aip</StartupFile>
+    <StartupFile>SetupBuilder x64_advinst.aip</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <IsWindowsApplication>True</IsWindowsApplication>
-    <AssemblyName>Advanced Installer Builder</AssemblyName>
-    <Name>Advanced Installer Builder</Name>
-    <RootNamespace>Advanced Installer Builder</RootNamespace>
+    <AssemblyName>SetupBuilder x64_advinst</AssemblyName>
+    <Name>SetupBuilder x64_advinst</Name>
+    <RootNamespace>SetupBuilder x64_advinst</RootNamespace>
     <LoadFromTemplate>
     </LoadFromTemplate>
+    <ImportedProject>{0dd732c7-8077-4a27-b337-e9cea03959f0}</ImportedProject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
   <ItemGroup>
-    <Compile Include="Advanced Installer Builder.aip">
+    <Compile Include="SetupBuilder x64_advinst.aip">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="21.2.2" version="21.2.2" Modules="simple" RootPath="." Language="en" Id="{75BA0B14-9935-46E3-978C-718EF37743E8}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="21.2.2" version="21.2.2" Modules="simple" RootPath="." Language="en" Id="{758E9DAA-4B8E-42B7-A867-4B725355735D}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
-    <ROW Name="AutoSave" Value="5"/>
-    <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
+    <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="ALLUSERS" Value="1"/>
+    <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPCONTACT" Value="Mickael CHAVE"/>
     <ROW Property="ARPPRODUCTICON" Value="WindowIcon.exe" Type="8"/>
+    <ROW Property="AspNetVersion" Value="2.0.50727.0"/>
     <ROW Property="Manufacturer" Value="Mickael CHAVE"/>
-    <ROW Property="ProductCode" Value="1033:{FD38F559-4B44-424D-BEDA-8FB43A8119E1} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{B0001532-BD3A-4734-BCD6-F798DD1F1187} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Intune Group Assignments"/>
     <ROW Property="ProductVersion" Value="0.1.0" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
-    <ROW Property="UpgradeCode" Value="{7D6F6718-DD7C-472C-B56B-98287CAF6D3C}"/>
+    <ROW Property="UpgradeCode" Value="{9604CEF8-CDF1-48DC-9A6E-818568A6DA29}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
@@ -27,21 +28,30 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
+    <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="APPDIR" ComponentId="{E11B6F26-BD39-4BFB-9A53-E52E5B11BA2C}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="ProductInformation" ComponentId="{90F9F317-01B3-489C-B023-C67C3E226393}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="APPDIR" ComponentId="{DB330148-98A9-469F-B224-A373DB9E5748}" Directory_="APPDIR" Attributes="0"/>
+    <ROW Component="C__3870BB6F29124A4BAD631BCE13F43E03" ComponentId="{34B4C4AA-6A6D-4F71-AD67-5D72AB9014F1}" Directory_="APPDIR" Attributes="0" KeyPath="_3870BB6F29124A4BAD631BCE13F43E03"/>
+    <ROW Component="C__99E095304D6D46C1A84140CB208C27EC" ComponentId="{4D1A6BA0-6A15-43A7-BFDF-D3E0B42C8645}" Directory_="APPDIR" Attributes="0" KeyPath="_99E095304D6D46C1A84140CB208C27EC"/>
+    <ROW Component="ProductInformation" ComponentId="{F97FA6C7-1317-4347-99D4-69A67EEECB75}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="DefaultFeature" Title="DefaultFeature" Display="2" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="_99E095304D6D46C1A84140CB208C27EC" Component_="C__99E095304D6D46C1A84140CB208C27EC" FileName="WINDOW~1.ICO|WindowIcon.ico" Attributes="512" SourcePath="..\Intune Group Assignments\Assets\WindowIcon.ico" SelfReg="false"/>
+    <ROW File="_3870BB6F29124A4BAD631BCE13F43E03" Component_="C__3870BB6F29124A4BAD631BCE13F43E03" FileName="apphost.exe" Attributes="512" SourcePath="..\Intune Group Assignments\obj\x64\Release\net7.0-windows10.0.22621.0\win10-x64\apphost.exe" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="en" InstallationType="4" UseLargeSchema="true" MsiPackageType="x64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -103,13 +113,15 @@
     <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFiles64Folder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatCompsComponent">
     <ROW Feature_="MainFeature" Component_="APPDIR"/>
     <ROW Feature_="MainFeature" Component_="ProductInformation"/>
+    <ROW Feature_="DefaultFeature" Component_="C__99E095304D6D46C1A84140CB208C27EC"/>
+    <ROW Feature_="DefaultFeature" Component_="C__3870BB6F29124A4BAD631BCE13F43E03"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="WindowIcon.exe" SourcePath="..\Intune Group Assignments\Assets\WindowIcon.ico" Index="0"/>
@@ -141,6 +153,10 @@
     <ROW Registry="ProductName" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="\"/>
     <ROW Registry="Software" Root="-1" Key="Software" Name="\"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="_602939D9DBE0432F8DAE07CF1657BA88" Directory_="DesktopFolder" Name="INTUNE~1|Intune Group Assignments" Component_="C__3870BB6F29124A4BAD631BCE13F43E03" Target="[#_3870BB6F29124A4BAD631BCE13F43E03]" Hotkey="0" Icon_="WindowIcon.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR" Advertised="true"/>
+    <ROW Shortcut="_E43C3EBD67D6428EB430B3B44077D42C" Directory_="ProgramMenuFolder" Name="INTUNE~1|Intune Group Assignments" Component_="C__3870BB6F29124A4BAD631BCE13F43E03" Target="[#_3870BB6F29124A4BAD631BCE13F43E03]" Hotkey="0" Icon_="WindowIcon.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR" Advertised="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
