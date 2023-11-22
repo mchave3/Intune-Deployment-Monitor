@@ -12,7 +12,7 @@ public class MicrosoftGraphService
     // Base URL for Microsoft Graph API
     private readonly string baseGraphUrl = "https://graph.microsoft.com";
     // API version for Microsoft Graph
-    private readonly string apiVersion = "v1.0";
+    private readonly string apiVersion = "Beta";
 
     public async Task<string> GetUserDisplayNameAsync()
     {

@@ -1,46 +1,70 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml.Data;
+using Intune_Group_Assignments.Models;
+using CommunityToolkit.WinUI.UI.Controls;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
-        private ICollectionView _myCollectionViewSource;
+        private readonly AllDataModel _allDataModel;
 
-        public ICollectionView MyCollectionViewSource
+        private bool _isLoading;
+        public bool IsLoading
         {
-            get => _myCollectionViewSource;
-            set => SetProperty(ref _myCollectionViewSource, value);
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        public ObservableCollection<PolicyAssignment> PolicyAssignments
+        {
+            get; private set;
+        }
+
+        public RelayCommand RefreshCommand
+        {
+            get;
         }
 
         public AllDataViewModel()
         {
-            // Initialize and populate MyCollectionViewSource with your data
-            var data = new ObservableCollection<YourDataModel>();
+            _allDataModel = new AllDataModel();
+            PolicyAssignments = new ObservableCollection<PolicyAssignment>();
+            RefreshCommand = new RelayCommand(LoadDataAsync);
+            LoadDataAsync();
+        }
 
-            // Add some sample data to the collection
-            for (int i = 1; i <= 50; i++)
+        private async void LoadDataAsync()
+        {
+            IsLoading = true;
+            PolicyAssignments.Clear();
+
+            var data = await _allDataModel.GetAllDataAsync();
+            foreach (var item in data)
             {
-                data.Add(new YourDataModel
+                PolicyAssignments.Add(new PolicyAssignment
                 {
-                    Name = $"Name {i}",
-                    Value = $"Value {i}"
+                    ResourceType = item.ResourceType,
+                    GroupId = item.GroupId,
+                    ResourceName = item.ResourceName
                 });
             }
-
-            MyCollectionViewSource = new CollectionViewSource { Source = data }.View;
+            IsLoading = false;
         }
     }
 
-    public class YourDataModel
+    public class PolicyAssignment
     {
-        // Définissez les propriétés de votre modèle de données ici
-        public string Name
+        public string ResourceType
         {
             get; set;
         }
-        public string Value
+        public string GroupId
+        {
+            get; set;
+        }
+        public string ResourceName
         {
             get; set;
         }

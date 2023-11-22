@@ -6,11 +6,16 @@ namespace Intune_Group_Assignments.Views
 {
     public sealed partial class AllDataPage : Page
     {
+        public AllDataViewModel ViewModel
+        {
+            get;
+        }
+
         public AllDataPage()
         {
             this.InitializeComponent();
-            // Initialisez votre ViewModel ici si nécessaire
-            this.DataContext = new AllDataViewModel();
+            ViewModel = new AllDataViewModel();
+            this.DataContext = ViewModel;
         }
     }
 }
