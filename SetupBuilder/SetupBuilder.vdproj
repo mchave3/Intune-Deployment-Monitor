@@ -204,7 +204,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Intune Group Assignments"
         "ProductCode" = "8:{B0001532-BD3A-4734-BCD6-F798DD1F1187}"
-        "PackageCode" = "8:{41079D21-FCB5-4227-A9F4-70DDA4EF573D}"
+        "PackageCode" = "8:{F48596D6-D101-4C2C-8555-33B05ECD42BB}"
         "UpgradeCode" = "8:{9604CEF8-CDF1-48DC-9A6E-818568A6DA29}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
