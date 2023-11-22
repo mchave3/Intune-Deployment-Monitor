@@ -13,13 +13,13 @@
   <Identity
     Name="9c08acc3-f904-4347-afd6-5d5db2a86f1d"
     Publisher="CN=chave"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
     
   <mp:PhoneIdentity PhoneProductId="9c08acc3-f904-4347-afd6-5d5db2a86f1d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
   <Properties>
     <DisplayName>Intune Group Assignments</DisplayName>
-    <PublisherDisplayName>chave</PublisherDisplayName>
+    <PublisherDisplayName>CHAVE</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
