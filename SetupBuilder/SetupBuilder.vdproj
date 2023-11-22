@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:SetupBuilder"
+"ProjectName" = "8:SetupBuilder x64"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_99E095304D6D46C1A84140CB208C27EC"
+        "MsmKey" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9FD662A7B2F349F38BCA18908738D361"
+        "MsmKey" = "8:_99E095304D6D46C1A84140CB208C27EC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -199,7 +199,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Intune Group Assignments"
         "ProductCode" = "8:{B0001532-BD3A-4734-BCD6-F798DD1F1187}"
-        "PackageCode" = "8:{6F9F7EB7-9CF7-498A-86BE-112B72278160}"
+        "PackageCode" = "8:{41079D21-FCB5-4227-A9F4-70DDA4EF573D}"
         "UpgradeCode" = "8:{9604CEF8-CDF1-48DC-9A6E-818568A6DA29}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -319,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_09DB91F9C534435184EBAA1641280C1C"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4D6245E288A24EDBB5FE267720008563"
             {
             "Name" = "8:Intune Group Assignments"
             "Arguments" = "8:"
@@ -327,8 +327,22 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_99E095304D6D46C1A84140CB208C27EC"
-            "Folder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
+            "Target" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
+            "Folder" = "8:_E2C57D53E0254BD3B30E8FF50EC75359"
+            "WorkingFolder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
+            "Icon" = "8:_99E095304D6D46C1A84140CB208C27EC"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7A74254CAC574608921140DD9D47F71D"
+            {
+            "Name" = "8:Intune Group Assignments"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_005E8DEBB1BB4B818DBF2951E5636C83"
+            "Folder" = "8:_9E1A2CC0D4C540D486150D384D2C7F69"
             "WorkingFolder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
             "Icon" = "8:_99E095304D6D46C1A84140CB208C27EC"
             "Feature" = "8:"
@@ -732,9 +746,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9FD662A7B2F349F38BCA18908738D361"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_005E8DEBB1BB4B818DBF2951E5636C83"
             {
-            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.19041.0\\apphost.exe"
+            "SourcePath" = "8:..\\Intune Group Assignments\\obj\\x64\\Release\\net7.0-windows10.0.22621.0\\win-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_144DAEC6FFDD4514A5793AC71560B7E0"
@@ -753,9 +767,10 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:PublishItemsOutputGroup"
+            "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{AB27A904-D667-41F0-9AE9-928429EFD917}"
             "ShowKeyOutput" = "11:TRUE"
+            "PublishProfilePath" = "8:Properties\\PublishProfiles\\win10-x64.pubxml"
                 "ExcludeFilters"
                 {
                 }

@@ -20,12 +20,6 @@
     <WindowsPackageType>None</WindowsPackageType>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Remove="Assets\logo-hFTJgDNbK-transformed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Views\AllDataPage.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -53,9 +47,5 @@
     <Page Update="Views\AllDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\MicrosoftGraph\" />
   </ItemGroup>
 </Project>
