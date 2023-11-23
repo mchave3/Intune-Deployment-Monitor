@@ -1,10 +1,7 @@
-﻿{
-    "profiles": {
-      "Intune Group Assignments (Package)": {
-        "commandName": "MsixPackage"
-      },
-      "Intune Group Assignments (Unpackaged)": {
-        "commandName": "Project"
-      }
+{
+  "profiles": {
+    "Intune Group Assignments (Unpackaged)": {
+      "commandName": "Project"
     }
+  }
 }
