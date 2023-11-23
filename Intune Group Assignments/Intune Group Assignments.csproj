@@ -14,7 +14,7 @@
 	  <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>false</EnableMsixTooling>
     <FileVersion></FileVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <SelfContained>true</SelfContained>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <WindowsPackageType>None</WindowsPackageType>
