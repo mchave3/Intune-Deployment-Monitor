@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intune Group Assignments", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intune Group Assignments.Core", "Intune Group Assignments.Core\Intune Group Assignments.Core.csproj", "{AAAEFF8C-33D8-4944-B5D9-D93015D24C50}"
 EndProject
-Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "SetupBuilder x64_advinst", "SetupBuilder x64_advinst\SetupBuilder x64_advinst.aiproj", "{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -101,38 +99,6 @@ Global
 		{AAAEFF8C-33D8-4944-B5D9-D93015D24C50}.Release|x64.Build.0 = Release|x64
 		{AAAEFF8C-33D8-4944-B5D9-D93015D24C50}.Release|x86.ActiveCfg = Release|x86
 		{AAAEFF8C-33D8-4944-B5D9-D93015D24C50}.Release|x86.Build.0 = Release|x86
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|Any CPU.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|Any CPU.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|arm64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|arm64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|x64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|x64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|x86.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.All|x86.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|Any CPU.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|Any CPU.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|arm64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|arm64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|x64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|x64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|x86.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Debug|x86.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|arm64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|arm64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|x64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|x64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|x86.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.DefaultBuild|x86.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|Any CPU.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|Any CPU.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|arm64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|arm64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|x64.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|x64.Build.0 = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|x86.ActiveCfg = DefaultBuild
-		{C8DF1603-64DD-43C7-8CB4-F023D976E5CB}.Release|x86.Build.0 = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
