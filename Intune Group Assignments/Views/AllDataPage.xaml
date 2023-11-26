@@ -5,7 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
       xmlns:viewmodels="using:Intune_Group_Assignments.ViewModels"
-      xmlns:converters="using:Intune_Group_Assignments.Converters"
+      xmlns:converters="using:Intune_Group_Assignments.Converters" 
       d:DataContext="{d:DesignInstance Type=viewmodels:AllDataViewModel}"
       mc:Ignorable="d">
 
@@ -26,7 +26,6 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Grid.RowSpan="2"/>
-        <!-- Spans both rows -->
 
         <!-- CommandBar -->
         <Grid x:Name="CommandBar" Grid.Row="0"
@@ -37,7 +36,12 @@
                 <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
                 <AppBarButton Icon="Share" Label="Share"/>
                 <CommandBar.Content>
-                    <TextBox VerticalAlignment="Center" PlaceholderText="Search..." Width="300"/>
+                    <TextBox VerticalAlignment="Center" 
+                        PlaceholderText="Search..." 
+                        Width="300"
+                        Text="{x:Bind ViewModel.SearchText, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"/>
                 </CommandBar.Content>
             </CommandBar>
         </Grid>
@@ -45,12 +49,11 @@
         <!-- DataGrid -->
         <Grid x:Name="DataGrid" Grid.Row="1"
               Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-            <controls:DataGrid 
-                ItemsSource="{Binding DataAssignments}"
-                AutoGenerateColumns="False"
-                CanUserSortColumns="True"
-                IsReadOnly="True"
-                SelectionChanged="OnDataGridSelectionChanged">
+            <controls:DataGrid ItemsSource="{Binding DataAssignments}"
+                               AutoGenerateColumns="False"
+                               CanUserSortColumns="True"
+                               IsReadOnly="True"
+                               SelectionChanged="OnDataGridSelectionChanged">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="ResourceType" Binding="{Binding ResourceType}" />
                     <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupDisplayName}" />

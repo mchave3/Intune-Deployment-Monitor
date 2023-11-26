@@ -2,13 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Intune_Group_Assignments.Models;
-using CommunityToolkit.WinUI.UI.Controls;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
         private readonly AllDataModel _allDataModel;
+        private List<DataAssignment> _allDataAssignments;
 
         private bool _isLoading;
         public bool IsLoading
@@ -19,7 +21,18 @@ namespace Intune_Group_Assignments.ViewModels
 
         public ObservableCollection<DataAssignment> DataAssignments
         {
-            get; private set;
+            get;
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                SetProperty(ref _searchText, value);
+                FilterDataAssignments();
+            }
         }
 
         public RelayCommand RefreshCommand
@@ -38,20 +51,37 @@ namespace Intune_Group_Assignments.ViewModels
         private async void LoadDataAsync()
         {
             IsLoading = true;
-            DataAssignments.Clear();
-
             var data = await _allDataModel.GetAllDataAsync();
-            foreach (var item in data)
+            _allDataAssignments = data.Select(tuple => new DataAssignment
             {
-                DataAssignments.Add(new DataAssignment
-                {
-                    ResourceType = item.ResourceType,
-                    GroupId = item.GroupId,
-                    GroupDisplayName = item.GroupDisplayName,
-                    ResourceName = item.ResourceName
-                });
+                ResourceName = tuple.ResourceName,
+                GroupId = tuple.GroupId,
+                GroupDisplayName = tuple.GroupDisplayName,
+                ResourceType = tuple.ResourceType
+            }).ToList();
+
+            DataAssignments.Clear();
+            foreach (var item in _allDataAssignments)
+            {
+                DataAssignments.Add(item);
             }
+
             IsLoading = false;
+        }
+
+        private void FilterDataAssignments()
+        {
+            var filteredData = string.IsNullOrEmpty(SearchText)
+                ? _allDataAssignments
+                : _allDataAssignments.Where(da => da.ResourceName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            DataAssignments.Clear();
+            foreach (var item in filteredData)
+            {
+                DataAssignments.Add(item);
+            }
+
+            OnPropertyChanged(nameof(DataAssignments));
         }
     }
 

@@ -12,7 +12,6 @@ namespace Intune_Group_Assignments.Models
         private readonly string baseGraphUrl = "https://graph.microsoft.com";
         private readonly string apiVersion = "Beta";
 
-        // Represents a generic response structure from Graph API
         public class GraphApiResponse
         {
             [JsonProperty("value")]
@@ -22,7 +21,6 @@ namespace Intune_Group_Assignments.Models
             }
         }
 
-        // Represents a generic resource from Graph API
         public class GraphResource
         {
             public string Name
@@ -40,7 +38,6 @@ namespace Intune_Group_Assignments.Models
                 get; set;
             }
 
-            // Returns DisplayName if available, otherwise Name
             public string GetEffectiveName()
             {
                 return !string.IsNullOrEmpty(DisplayName) ? DisplayName : Name;
@@ -76,6 +73,14 @@ namespace Intune_Group_Assignments.Models
             {
                 get; set;
             }
+
+            [JsonProperty("@odata.type")]
+            public string Type
+            {
+                get; set;
+            }
+
+            public bool IsAllDevices => Type == "#microsoft.graph.allDevicesAssignmentTarget";
         }
 
         public async Task<List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType)>> GetAllDataAsync()
@@ -93,7 +98,8 @@ namespace Intune_Group_Assignments.Models
             var enrichedResults = new List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType)>();
             foreach (var result in allResults)
             {
-                var GroupDisplayName = await GetGroupNameAsync(client, result.GroupId);
+                // Specific handling for "All Devices"
+                var GroupDisplayName = result.GroupId == "All Devices" ? "All Devices" : await GetGroupNameAsync(client, result.GroupId);
                 enrichedResults.Add((result.ResourceName, result.GroupId, GroupDisplayName, result.ResourceType));
             }
 
@@ -170,7 +176,7 @@ namespace Intune_Group_Assignments.Models
 
                 foreach (var assignment in resource.Assignments)
                 {
-                    var groupId = assignment.Target.GroupId;
+                    var groupId = assignment.Target.IsAllDevices ? "All Devices" : assignment.Target.GroupId;
                     var effectiveName = resource.GetEffectiveName();
                     result.Add((effectiveName, groupId, resourceName));
                 }
@@ -180,6 +186,11 @@ namespace Intune_Group_Assignments.Models
 
         private async Task<string> GetGroupNameAsync(HttpClient client, string groupId)
         {
+            if (groupId == "All Devices")
+            {
+                return "All Devices";
+            }
+
             var requestUrl = $"{baseGraphUrl}/{apiVersion}/groups/{groupId}";
             try
             {
