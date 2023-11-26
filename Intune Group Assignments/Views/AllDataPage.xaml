@@ -36,13 +36,6 @@
                 <AppBarButton Icon="Edit" Label="Edit"/>
                 <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
                 <AppBarButton Icon="Share" Label="Share"/>
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton Icon="Setting" Label="Settings">
-                        <AppBarButton.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="I"/>
-                        </AppBarButton.KeyboardAccelerators>
-                    </AppBarButton>
-                </CommandBar.SecondaryCommands>
                 <CommandBar.Content>
                     <TextBox VerticalAlignment="Center" PlaceholderText="Search..." Width="300"/>
                 </CommandBar.Content>
@@ -53,10 +46,11 @@
         <Grid x:Name="DataGrid" Grid.Row="1"
               Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <controls:DataGrid 
-                ItemsSource="{Binding PolicyAssignments}"
+                ItemsSource="{Binding DataAssignments}"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="True"
-                IsReadOnly="True">
+                IsReadOnly="True"
+                SelectionChanged="OnDataGridSelectionChanged">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="ResourceType" Binding="{Binding ResourceType}" />
                     <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupId}" />

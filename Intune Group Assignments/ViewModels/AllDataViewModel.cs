@@ -17,7 +17,7 @@ namespace Intune_Group_Assignments.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
-        public ObservableCollection<PolicyAssignment> PolicyAssignments
+        public ObservableCollection<DataAssignment> DataAssignments
         {
             get; private set;
         }
@@ -30,7 +30,7 @@ namespace Intune_Group_Assignments.ViewModels
         public AllDataViewModel()
         {
             _allDataModel = new AllDataModel();
-            PolicyAssignments = new ObservableCollection<PolicyAssignment>();
+            DataAssignments = new ObservableCollection<DataAssignment>();
             RefreshCommand = new RelayCommand(LoadDataAsync);
             LoadDataAsync();
         }
@@ -38,12 +38,12 @@ namespace Intune_Group_Assignments.ViewModels
         private async void LoadDataAsync()
         {
             IsLoading = true;
-            PolicyAssignments.Clear();
+            DataAssignments.Clear();
 
             var data = await _allDataModel.GetAllDataAsync();
             foreach (var item in data)
             {
-                PolicyAssignments.Add(new PolicyAssignment
+                DataAssignments.Add(new DataAssignment
                 {
                     ResourceType = item.ResourceType,
                     GroupId = item.GroupId,
@@ -54,7 +54,7 @@ namespace Intune_Group_Assignments.ViewModels
         }
     }
 
-    public class PolicyAssignment
+    public class DataAssignment
     {
         public string ResourceType
         {
