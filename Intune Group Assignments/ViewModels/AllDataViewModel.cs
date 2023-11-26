@@ -47,6 +47,7 @@ namespace Intune_Group_Assignments.ViewModels
                 {
                     ResourceType = item.ResourceType,
                     GroupId = item.GroupId,
+                    GroupDisplayName = item.GroupDisplayName,
                     ResourceName = item.ResourceName
                 });
             }
@@ -61,6 +62,10 @@ namespace Intune_Group_Assignments.ViewModels
             get; set;
         }
         public string GroupId
+        {
+            get; set;
+        }
+        public string GroupDisplayName
         {
             get; set;
         }

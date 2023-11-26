@@ -21,6 +21,7 @@ namespace Intune_Group_Assignments.Views
             {
                 ResourceTypeTextBlock.Text += " " + data.ResourceType;
                 GroupIdTextBlock.Text += " " + data.GroupId;
+                GroupDisplayNameTextBlock.Text += " " + data.GroupDisplayName;
                 ResourceNameTextBlock.Text += " " + data.ResourceName;
             }
         }

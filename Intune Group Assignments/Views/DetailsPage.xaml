@@ -31,6 +31,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -48,10 +49,15 @@
             <!-- Group ID Value -->
             <TextBlock x:Name="GroupIdTextBlock" Grid.Row="1" Grid.Column="1"/>
 
+            <!-- Group DisplayName Label -->
+            <TextBlock Text="Group DisplayName:" FontWeight="Bold" Grid.Row="2" Grid.Column="0"/>
+            <!-- Group ID Value -->
+            <TextBlock x:Name="GroupDisplayNameTextBlock" Grid.Row="2" Grid.Column="1"/>
+
             <!-- Resource Name Label -->
-            <TextBlock Text="Resource Name:" FontWeight="Bold" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="Resource Name:" FontWeight="Bold" Grid.Row="3" Grid.Column="0"/>
             <!-- Resource Name Value -->
-            <TextBlock x:Name="ResourceNameTextBlock" Grid.Row="2" Grid.Column="1"/>
+            <TextBlock x:Name="ResourceNameTextBlock" Grid.Row="3" Grid.Column="1"/>
         </Grid>
     </Grid>
 </Page>

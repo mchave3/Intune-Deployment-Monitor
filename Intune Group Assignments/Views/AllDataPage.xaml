@@ -53,7 +53,7 @@
                 SelectionChanged="OnDataGridSelectionChanged">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Header="ResourceType" Binding="{Binding ResourceType}" />
-                    <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupId}" />
+                    <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupDisplayName}" />
                     <controls:DataGridTextColumn Header="Resource Name" Binding="{Binding ResourceName}" />
                 </controls:DataGrid.Columns>
             </controls:DataGrid>

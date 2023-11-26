@@ -78,7 +78,7 @@ namespace Intune_Group_Assignments.Models
             }
         }
 
-        public async Task<List<(string ResourceName, string GroupId, string ResourceType)>> GetAllDataAsync()
+        public async Task<List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType)>> GetAllDataAsync()
         {
             await RenewTokenIfNeeded();
 
@@ -90,8 +90,15 @@ namespace Intune_Group_Assignments.Models
                 await ProcessResource(client, Url, Name, allResults);
             }
 
-            DebugAllResults(allResults);
-            return allResults;
+            var enrichedResults = new List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType)>();
+            foreach (var result in allResults)
+            {
+                var GroupDisplayName = await GetGroupNameAsync(client, result.GroupId);
+                enrichedResults.Add((result.ResourceName, result.GroupId, GroupDisplayName, result.ResourceType));
+            }
+
+            DebugAllResults(enrichedResults);
+            return enrichedResults;
         }
 
         private async Task RenewTokenIfNeeded()
@@ -171,11 +178,32 @@ namespace Intune_Group_Assignments.Models
             return result;
         }
 
-        private void DebugAllResults(List<(string ResourceName, string GroupId, string ResourceType)> allResults)
+        private async Task<string> GetGroupNameAsync(HttpClient client, string groupId)
+        {
+            var requestUrl = $"{baseGraphUrl}/{apiVersion}/groups/{groupId}";
+            try
+            {
+                var response = await client.GetAsync(requestUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var group = JsonConvert.DeserializeObject<GraphResource>(json);
+                    return group.DisplayName;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception occurred while getting display name for group {groupId}: {ex.Message}");
+            }
+
+            return "Unknown Group";
+        }
+
+        private void DebugAllResults(List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType)> allResults)
         {
             foreach (var result in allResults)
             {
-                Debug.WriteLine($"Resource Name: {result.ResourceName}, Group ID: {result.GroupId}, Resource Type: {result.ResourceType}");
+                Debug.WriteLine($"Resource Name: {result.ResourceName}, Group ID: {result.GroupId}, Group DisplayName: {result.GroupDisplayName}, Resource Type: {result.ResourceType}");
             }
         }
     }
