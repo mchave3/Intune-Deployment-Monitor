@@ -57,7 +57,9 @@ namespace Intune_Group_Assignments.ViewModels
                 ResourceName = tuple.ResourceName,
                 GroupId = tuple.GroupId,
                 GroupDisplayName = tuple.GroupDisplayName,
-                ResourceType = tuple.ResourceType
+                ResourceType = tuple.ResourceType,
+                DeploymentStatus = tuple.DeploymentStatus,
+                IncludeExcludeStatus = tuple.IncludeExcludeStatus
             }).ToList();
 
             DataAssignments.Clear();
@@ -100,6 +102,14 @@ namespace Intune_Group_Assignments.ViewModels
             get; set;
         }
         public string ResourceName
+        {
+            get; set;
+        }
+        public string DeploymentStatus
+        {
+            get; set;
+        }
+        public string IncludeExcludeStatus
         {
             get; set;
         }
