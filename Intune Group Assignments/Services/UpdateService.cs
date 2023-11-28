@@ -1,10 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Newtonsoft.Json;
-using System.IO;
-using CommunityToolkit.WinUI.Helpers;
 
 public class UpdateService
 {
@@ -31,20 +26,17 @@ public class UpdateService
                 client.DefaultRequestHeaders.Add("User-Agent", "request");
 
                 var response = await client.GetStringAsync(LatestReleaseUrl);
-                Debug.WriteLine(response);
                 dynamic latestRelease = JsonConvert.DeserializeObject(response);
 
                 string tagName = latestRelease.tag_name;
-                Debug.WriteLine(tagName);
                 if (tagName.StartsWith("v"))
                 {
                     tagName = tagName.Substring(1);
-                    Debug.WriteLine(tagName);
                 }
 
                 // Assuming the .msi file is the first asset
                 string downloadUrl = latestRelease.assets[0].browser_download_url;
-                Debug.WriteLine(downloadUrl);
+                Debug.WriteLine($"Download URL: {downloadUrl}");
 
                 Debug.WriteLine($"Latest version: {tagName}");
                 return new UpdateInfo
@@ -71,9 +63,12 @@ public class UpdateService
             using (var httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
-                Debug.WriteLine(response);
 
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Update downloaded successfully.");
+                }
+                else
                 {
                     Debug.WriteLine("Error downloading the update.");
                 }
@@ -84,7 +79,6 @@ public class UpdateService
                     await contentStream.CopyToAsync(fileStream);
                 }
             }
-            Debug.WriteLine($"Update downloaded to {fileName}");
             return fileName;
         }
         catch (Exception ex)

@@ -1,14 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using System.Xml;
-using System.IO;
 using System.Diagnostics;
 using Microsoft.UI.Xaml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Microsoft.Win32;
 
 public class UpdateViewModel : INotifyPropertyChanged
 {
@@ -46,6 +41,7 @@ public class UpdateViewModel : INotifyPropertyChanged
 
             if (IsNewVersionAvailable(currentVersion, updateInfo.Version))
             {
+                Debug.WriteLine("New version available");
                 LatestVersion = updateInfo.Version;
                 var dialog = new ContentDialog
                 {
@@ -59,7 +55,7 @@ public class UpdateViewModel : INotifyPropertyChanged
                 {
                     dialog.XamlRoot = uiElement.XamlRoot;
                 }
-
+                Debug.WriteLine("Showing dialog");
                 var result = await dialog.ShowAsync();
                 Debug.WriteLine($"Dialog result: {result}");
 
@@ -113,31 +109,32 @@ public class UpdateViewModel : INotifyPropertyChanged
 
     private string GetCurrentVersion()
     {
-        // Path to the executable
-        string exePath = @"C:\Program Files\Mickael CHAVE\Intune Group Assignments\Intune Group Assignments.exe";
+        const string registryKeyPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Mickael CHAVE\Intune Group Assignments";
+        const string versionValueName = "Version";
 
-        Debug.WriteLine($"Checking version for executable at: {exePath}");
+        Debug.WriteLine($"Checking version in registry at: {registryKeyPath}");
 
-        // Check if the file exists
-        if (File.Exists(exePath))
+        try
         {
-            Debug.WriteLine("Executable found. Retrieving file version information...");
+            // Retrieve the value from the registry key
+            string version = Registry.GetValue(registryKeyPath, versionValueName, null) as string;
 
-            // Get the version information of the file
-            var versionInfo = FileVersionInfo.GetVersionInfo(exePath);
-
-            // Return the file version
-            string version = versionInfo.FileVersion;
-            Debug.WriteLine($"File version retrieved: {version}");
-            return version;
+            if (version != null)
+            {
+                Debug.WriteLine($"Version found in registry: {version}");
+                return version;
+            }
+            else
+            {
+                Debug.WriteLine("Version key not found in registry. Returning default version value.");
+                return string.Empty; // or return a default value
+            }
         }
-        else
+        catch (Exception ex)
         {
-            // Handle the case where the file does not exist
-            Debug.WriteLine("Executable not found. Returning default version value.");
-
-            // For example, return an empty string or a default value
-            return string.Empty;
+            // Handle exceptions (e.g., problems accessing the registry)
+            Debug.WriteLine($"An error occurred while accessing the registry: {ex.Message}");
+            return string.Empty; // or return a default value in case of an error
         }
     }
 
