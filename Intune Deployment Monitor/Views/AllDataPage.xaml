@@ -1,0 +1,67 @@
+<Page x:Class="Intune_Deployment_Monitor.Views.AllDataPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
+      xmlns:viewmodels="using:Intune_Deployment_Monitor.ViewModels"
+      xmlns:converters="using:Intune_Deployment_Monitor.Converters" 
+      d:DataContext="{d:DesignInstance Type=viewmodels:AllDataViewModel}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid Padding="0,0,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ProgressRing -->
+        <ProgressRing IsActive="{Binding IsLoading}"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Grid.RowSpan="2"/>
+
+        <!-- CommandBar -->
+        <Grid x:Name="CommandBar" Grid.Row="0"
+              Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
+                <AppBarButton Icon="Add" Label="Add"/>
+                <AppBarButton Icon="Edit" Label="Edit"/>
+                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+                <AppBarButton Icon="Share" Label="Share"/>
+                <CommandBar.Content>
+                    <TextBox VerticalAlignment="Center" 
+                        PlaceholderText="Search..." 
+                        Width="300"
+                        Text="{x:Bind ViewModel.SearchText, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"/>
+                </CommandBar.Content>
+            </CommandBar>
+        </Grid>
+
+        <!-- DataGrid -->
+        <Grid x:Name="DataGrid" Grid.Row="1"
+              Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <controls:DataGrid ItemsSource="{Binding DataAssignments}"
+                               AutoGenerateColumns="False"
+                               CanUserSortColumns="True"
+                               IsReadOnly="True"
+                               SelectionChanged="OnDataGridSelectionChanged">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn Header="ResourceType" Binding="{Binding ResourceType}" />
+                    <controls:DataGridTextColumn Header="Group ID" Binding="{Binding GroupDisplayName}" />
+                    <controls:DataGridTextColumn Header="Resource Name" Binding="{Binding ResourceName}" />
+                    <controls:DataGridTextColumn Header="Deployment Status" Binding="{Binding DeploymentStatus}" />
+                    <controls:DataGridTextColumn Header="Include/Exclude" Binding="{Binding IncludeExcludeStatus}" />
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+        </Grid>
+    </Grid>
+</Page>
