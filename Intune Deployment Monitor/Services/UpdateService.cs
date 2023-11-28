@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 public class UpdateService
 {
-    private const string LatestReleaseUrl = "https://api.github.com/repos/mchave3/Intune-Group-Assignments/releases/latest";
+    private const string LatestReleaseUrl = "https://api.github.com/repos/mchave3/Intune-Deployment-Monitor/releases/latest";
 
     public class UpdateInfo
     {
