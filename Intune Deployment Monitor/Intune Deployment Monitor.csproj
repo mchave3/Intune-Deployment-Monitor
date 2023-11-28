@@ -22,8 +22,8 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <Page Remove="Views\AllDataPage.xaml" />
-    <Page Remove="Views\DetailsPage.xaml" />
+    <None Remove="Views\AllDataPage.xaml" />
+    <None Remove="Views\DetailsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,12 +49,12 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\AllDataPage.xaml">
+    <Page Update="Views\AllDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\DetailsPage.xaml">
+    </Page>
+    <Page Update="Views\DetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
+    </Page>
     <Page Update="Views\DetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
