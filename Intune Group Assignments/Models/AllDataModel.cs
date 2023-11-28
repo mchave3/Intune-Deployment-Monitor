@@ -12,7 +12,6 @@ namespace Intune_Group_Assignments.Models
         private readonly string baseGraphUrl = "https://graph.microsoft.com";
         private readonly string apiVersion = "Beta";
 
-        // Represents a generic response structure from Graph API
         public class GraphApiResponse
         {
             [JsonProperty("value")]
@@ -22,7 +21,6 @@ namespace Intune_Group_Assignments.Models
             }
         }
 
-        // Represents a generic resource from Graph API
         public class GraphResource
         {
             public string Name
@@ -40,7 +38,6 @@ namespace Intune_Group_Assignments.Models
                 get; set;
             }
 
-            // Returns DisplayName if available, otherwise Name
             public string GetEffectiveName()
             {
                 return !string.IsNullOrEmpty(DisplayName) ? DisplayName : Name;
@@ -67,6 +64,27 @@ namespace Intune_Group_Assignments.Models
             {
                 get; set;
             }
+
+            [JsonProperty("intent")]
+            public string DeploymentStatus
+            {
+                get; set;
+            }
+
+            public string IncludeExcludeStatus
+            {
+                get
+                {
+                    if (Target.IsAllDevices)
+                    {
+                        return "Include";
+                    }
+                    else
+                    {
+                        return Target.IsExcluded ? "Exclude" : "Include";
+                    }
+                }
+            }
         }
 
         public class Target
@@ -76,22 +94,39 @@ namespace Intune_Group_Assignments.Models
             {
                 get; set;
             }
+
+            [JsonProperty("@odata.type")]
+            public string Type
+            {
+                get; set;
+            }
+
+            public bool IsAllDevices => Type == "#microsoft.graph.allDevicesAssignmentTarget";
+
+            public bool IsExcluded => Type == "#microsoft.graph.exclusionGroupAssignmentTarget";
         }
 
-        public async Task<List<(string ResourceName, string GroupId, string ResourceType)>> GetAllDataAsync()
+        public async Task<List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)>> GetAllDataAsync()
         {
             await RenewTokenIfNeeded();
 
             using var client = CreateHttpClient();
-            var allResults = new List<(string ResourceName, string GroupId, string ResourceType)>();
+            var allResults = new List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)>();
 
             foreach (var (Url, Name) in GetResources())
             {
                 await ProcessResource(client, Url, Name, allResults);
             }
 
-            DebugAllResults(allResults);
-            return allResults;
+            var enrichedResults = new List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)>();
+            foreach (var result in allResults)
+            {
+                var groupDisplayName = result.GroupId == "All Devices" ? "All Devices" : await GetGroupNameAsync(client, result.GroupId);
+                enrichedResults.Add((result.ResourceName, result.GroupId, groupDisplayName, result.ResourceType, result.DeploymentStatus, result.IncludeExcludeStatus));
+            }
+
+            DebugAllResults(enrichedResults);
+            return enrichedResults;
         }
 
         private async Task RenewTokenIfNeeded()
@@ -130,7 +165,7 @@ namespace Intune_Group_Assignments.Models
             };
         }
 
-        private async Task ProcessResource(HttpClient client, string url, string resourceName, List<(string ResourceName, string GroupId, string ResourceType)> allResults)
+        private async Task ProcessResource(HttpClient client, string url, string resourceName, List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)> allResults)
         {
             var requestUrl = $"{baseGraphUrl}/{apiVersion}/{url}?expand=assignments";
             try
@@ -152,10 +187,10 @@ namespace Intune_Group_Assignments.Models
             }
         }
 
-        private async Task<List<(string ResourceName, string GroupId, string ResourceType)>> ProcessJsonResponse(string resourceName, string json)
+        private async Task<List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)>> ProcessJsonResponse(string resourceName, string json)
         {
             var response = JsonConvert.DeserializeObject<GraphApiResponse>(json);
-            var result = new List<(string ResourceName, string GroupId, string ResourceType)>();
+            var result = new List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)>();
 
             foreach (var resource in response.Resources)
             {
@@ -163,19 +198,48 @@ namespace Intune_Group_Assignments.Models
 
                 foreach (var assignment in resource.Assignments)
                 {
-                    var groupId = assignment.Target.GroupId;
+                    var groupId = assignment.Target.IsAllDevices ? "All Devices" : assignment.Target.GroupId;
                     var effectiveName = resource.GetEffectiveName();
-                    result.Add((effectiveName, groupId, resourceName));
+                    var deploymentStatus = assignment.DeploymentStatus;
+                    var includeExcludeStatus = assignment.IncludeExcludeStatus;
+
+                    result.Add((effectiveName, groupId, effectiveName, resourceName, deploymentStatus, includeExcludeStatus));
                 }
             }
             return result;
         }
 
-        private void DebugAllResults(List<(string ResourceName, string GroupId, string ResourceType)> allResults)
+        private async Task<string> GetGroupNameAsync(HttpClient client, string groupId)
+        {
+            if (groupId == "All Devices")
+            {
+                return "All Devices";
+            }
+
+            var requestUrl = $"{baseGraphUrl}/{apiVersion}/groups/{groupId}";
+            try
+            {
+                var response = await client.GetAsync(requestUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var group = JsonConvert.DeserializeObject<GraphResource>(json);
+                    return group.DisplayName;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception occurred while getting display name for group {groupId}: {ex.Message}");
+            }
+
+            return "Unknown Group";
+        }
+
+        private void DebugAllResults(List<(string ResourceName, string GroupId, string GroupDisplayName, string ResourceType, string DeploymentStatus, string IncludeExcludeStatus)> allResults)
         {
             foreach (var result in allResults)
             {
-                Debug.WriteLine($"Resource Name: {result.ResourceName}, Group ID: {result.GroupId}, Resource Type: {result.ResourceType}");
+                Debug.WriteLine($"Resource Name: {result.ResourceName}, Group ID: {result.GroupId}, Group DisplayName: {result.GroupDisplayName}, Resource Type: {result.ResourceType}, Deployment Status: {result.DeploymentStatus}, Include/Exclude Status: {result.IncludeExcludeStatus}");
             }
         }
     }

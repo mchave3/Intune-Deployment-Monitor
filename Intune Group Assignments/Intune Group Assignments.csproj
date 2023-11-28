@@ -21,6 +21,9 @@
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Views\DetailsPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -45,6 +48,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\DetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\AllDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

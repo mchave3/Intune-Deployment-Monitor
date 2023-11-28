@@ -2,13 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Intune_Group_Assignments.Models;
-using CommunityToolkit.WinUI.UI.Controls;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Intune_Group_Assignments.ViewModels
 {
     public class AllDataViewModel : ObservableObject
     {
         private readonly AllDataModel _allDataModel;
+        private List<DataAssignment> _allDataAssignments;
 
         private bool _isLoading;
         public bool IsLoading
@@ -17,9 +19,20 @@ namespace Intune_Group_Assignments.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
-        public ObservableCollection<PolicyAssignment> PolicyAssignments
+        public ObservableCollection<DataAssignment> DataAssignments
         {
-            get; private set;
+            get;
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                SetProperty(ref _searchText, value);
+                FilterDataAssignments();
+            }
         }
 
         public RelayCommand RefreshCommand
@@ -30,7 +43,7 @@ namespace Intune_Group_Assignments.ViewModels
         public AllDataViewModel()
         {
             _allDataModel = new AllDataModel();
-            PolicyAssignments = new ObservableCollection<PolicyAssignment>();
+            DataAssignments = new ObservableCollection<DataAssignment>();
             RefreshCommand = new RelayCommand(LoadDataAsync);
             LoadDataAsync();
         }
@@ -38,23 +51,43 @@ namespace Intune_Group_Assignments.ViewModels
         private async void LoadDataAsync()
         {
             IsLoading = true;
-            PolicyAssignments.Clear();
-
             var data = await _allDataModel.GetAllDataAsync();
-            foreach (var item in data)
+            _allDataAssignments = data.Select(tuple => new DataAssignment
             {
-                PolicyAssignments.Add(new PolicyAssignment
-                {
-                    ResourceType = item.ResourceType,
-                    GroupId = item.GroupId,
-                    ResourceName = item.ResourceName
-                });
+                ResourceName = tuple.ResourceName,
+                GroupId = tuple.GroupId,
+                GroupDisplayName = tuple.GroupDisplayName,
+                ResourceType = tuple.ResourceType,
+                DeploymentStatus = tuple.DeploymentStatus,
+                IncludeExcludeStatus = tuple.IncludeExcludeStatus
+            }).ToList();
+
+            DataAssignments.Clear();
+            foreach (var item in _allDataAssignments)
+            {
+                DataAssignments.Add(item);
             }
+
             IsLoading = false;
+        }
+
+        private void FilterDataAssignments()
+        {
+            var filteredData = string.IsNullOrEmpty(SearchText)
+                ? _allDataAssignments
+                : _allDataAssignments.Where(da => da.ResourceName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            DataAssignments.Clear();
+            foreach (var item in filteredData)
+            {
+                DataAssignments.Add(item);
+            }
+
+            OnPropertyChanged(nameof(DataAssignments));
         }
     }
 
-    public class PolicyAssignment
+    public class DataAssignment
     {
         public string ResourceType
         {
@@ -64,7 +97,19 @@ namespace Intune_Group_Assignments.ViewModels
         {
             get; set;
         }
+        public string GroupDisplayName
+        {
+            get; set;
+        }
         public string ResourceName
+        {
+            get; set;
+        }
+        public string DeploymentStatus
+        {
+            get; set;
+        }
+        public string IncludeExcludeStatus
         {
             get; set;
         }
