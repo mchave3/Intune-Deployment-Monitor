@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Intune_Deployment_Monitor.ViewModels;
 
-public partial class MainViewModel : ObservableRecipient
+public partial class HomeViewModel : ObservableRecipient
 {
     private readonly UpdateViewModel _updateViewModel;
     private readonly MicrosoftGraphService _microsoftGraphService;
@@ -17,7 +17,7 @@ public partial class MainViewModel : ObservableRecipient
     private Visibility _disconnectButtonVisibility = Visibility.Collapsed;
     private string _displayName;
 
-    public MainViewModel()
+    public HomeViewModel()
     {
         _updateViewModel = new UpdateViewModel();
         _microsoftGraphService = new MicrosoftGraphService();
