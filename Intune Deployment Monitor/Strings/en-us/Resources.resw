@@ -123,7 +123,7 @@
   <data name="AppDescription" xml:space="preserve">
     <value>Intune Deployment Monitor</value>
   </data>
-  <data name="Shell_Main.Content" xml:space="preserve">
+  <data name="Shell_Home.Content" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
