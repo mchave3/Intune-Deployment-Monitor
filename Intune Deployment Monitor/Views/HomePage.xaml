@@ -1,36 +1,98 @@
 ﻿<Page x:Class="Intune_Deployment_Monitor.Views.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+      xmlns:viewmodels="using:Intune_Deployment_Monitor.ViewModels">
 
-    <Grid x:Name="ContentArea">
-        <StackPanel Orientation="Horizontal" 
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Top" 
-            Margin="0,20,0,0">
-            <TextBlock Text="Welcome "
-               Margin="0,0,8,0"
-               Visibility="{x:Bind ViewModel.WelcomeMessageVisibility, Mode=OneWay}"
-               Style="{StaticResource TitleTextBlockStyle}"/>
-            <TextBlock Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
-               Visibility="{x:Bind ViewModel.WelcomeMessageVisibility, Mode=OneWay}"
-               Style="{StaticResource TitleTextBlockStyle}"/>
-        </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <Button x:Name="ButtonConnect" Content="Connect" 
-                Command="{x:Bind ViewModel.ConnectCommand}" 
-                Visibility="{x:Bind ViewModel.ConnectButtonVisibility, Mode=OneWay}"
-                HorizontalAlignment="Center" VerticalAlignment="Center" />
-        
-        <Button x:Name="ButtonTest" Content="Test_Token"
-                Command="{x:Bind ViewModel.TestCommand}"
-                HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <!-- Header with the Connect button centered -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <Button x:Name="ButtonDisconnect" Content="Disconnect" 
-                Command="{x:Bind ViewModel.DisconnectCommand}" 
-                Visibility="{x:Bind ViewModel.DisconnectButtonVisibility, Mode=OneWay}"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" />
+            <!-- Header content -->
+            <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Text="Intune Deployment Monitor" FontSize="36"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Version " FontSize="16" Margin="0,0,5,0"/>
+                    <TextBlock Text="{x:Bind ViewModel.VersionNumber}" FontSize="16"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Connect Button -->
+            <Button x:Name="ButtonConnect" Grid.Column="1"
+                    Command="{x:Bind ViewModel.ConnectCommand}" 
+                    Visibility="{x:Bind ViewModel.ConnectButtonVisibility, Mode=OneWay}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xE77B;" Margin="5" />
+                    <TextBlock Text="Login" Margin="5"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Disconnect Button -->
+            <Button x:Name="ButtonDisconnect" Grid.Column="1" 
+                    Command="{x:Bind ViewModel.DisconnectCommand}" 
+                    Visibility="{x:Bind ViewModel.DisconnectButtonVisibility, Mode=OneWay}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xE7E8;" Margin="5" />
+                    <TextBlock Text="Logout" Margin="5"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Content section -->
+        <Grid Grid.Row="1">
+            <!-- Login prompt message -->
+            <TextBlock Text="Please log in to continue."
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Visibility="{x:Bind ViewModel.LoginPromptVisibility, Mode=OneWay}"
+               Style="{StaticResource TitleTextBlockStyle}"
+               Margin="0,0,0,0"/>
+
+            <!-- Welcome message after login -->
+            <StackPanel Orientation="Horizontal" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Visibility="{x:Bind ViewModel.WelcomeMessageVisibility, Mode=OneWay}"
+                Margin="0,0,0,0">
+                <TextBlock Text="Welcome "
+                   Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,10,0"/>
+                <TextBlock Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
+                   Style="{StaticResource TitleTextBlockStyle}"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,0,0,50">
+            <StackPanel Orientation="Horizontal" >
+                <Button Height="180" Width="150" Margin="0,0,20,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="ms-appx:///Assets/HomePage/Azure_logo.png" Height="50" Width="50"/>
+                        <TextBlock Text="Portal Azure" FontSize="16" Margin="5"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="180" Width="150" Margin="0,0,20,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="ms-appx:///Assets/HomePage/Intune_logo.png" Height="50" Width="50"/>
+                        <TextBlock Text="Portal Intune" FontSize="16" Margin="5"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="180" Width="150" Margin="0,0,20,0">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="ms-appx:///Assets/HomePage/Github_logo.png" Height="50" Width="50"/>
+                        <TextBlock Text="Github" FontSize="16" Margin="5"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

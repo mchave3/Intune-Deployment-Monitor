@@ -14,7 +14,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>false</EnableMsixTooling>
     <FileVersion></FileVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <SelfContained>true</SelfContained>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <WindowsPackageType>None</WindowsPackageType>
@@ -44,6 +44,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Intune Deployment Monitor.Core\Intune Deployment Monitor.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
