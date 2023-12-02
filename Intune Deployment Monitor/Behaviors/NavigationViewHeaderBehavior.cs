@@ -1,4 +1,5 @@
 ﻿using Intune_Deployment_Monitor.Contracts.Services;
+using Intune_Deployment_Monitor.Views;
 using Intune_Monitor_Deployment.Behaviors;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -81,6 +82,15 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
     {
         if (_currentPage != null)
         {
+            // Check if the current page is HomePage
+            if (_currentPage.GetType() == typeof(HomePage))
+            {
+                // Do not display the header for HomePage
+                AssociatedObject.Header = null;
+                AssociatedObject.AlwaysShowHeader = false;
+                return;
+            }
+
             var headerMode = GetHeaderMode(_currentPage);
             if (headerMode == NavigationViewHeaderMode.Never)
             {
@@ -98,7 +108,6 @@ public class NavigationViewHeaderBehavior : Behavior<NavigationView>
                 {
                     AssociatedObject.Header = DefaultHeader;
                 }
-
                 if (headerMode == NavigationViewHeaderMode.Always)
                 {
                     AssociatedObject.AlwaysShowHeader = true;
