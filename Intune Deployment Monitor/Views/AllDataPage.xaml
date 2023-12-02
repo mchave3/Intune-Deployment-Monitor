@@ -25,16 +25,14 @@
                       Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Grid.RowSpan="2"/>
+                      Grid.RowSpan="2"
+                      Height="50"
+                      Width="50"/>
 
         <!-- CommandBar -->
         <Grid x:Name="CommandBar" Grid.Row="0"
               Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsSticky="True">
-                <AppBarButton Icon="Add" Label="Add"/>
-                <AppBarButton Icon="Edit" Label="Edit"/>
-                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-                <AppBarButton Icon="Share" Label="Share"/>
                 <CommandBar.Content>
                     <TextBox VerticalAlignment="Center" 
                         PlaceholderText="Search..." 
@@ -43,6 +41,8 @@
                         Mode=TwoWay, 
                         UpdateSourceTrigger=PropertyChanged}"/>
                 </CommandBar.Content>
+                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+                <AppBarButton Icon="Download" Label="Export to CSV" Command="{Binding ExportToCsvCommand}"/>
             </CommandBar>
         </Grid>
 

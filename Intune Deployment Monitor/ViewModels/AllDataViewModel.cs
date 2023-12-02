@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Intune_Deployment_Monitor.Models;
-using System.Linq;
-using System.Collections.Generic;
+using System.Text;
+using WinRT.Interop;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
@@ -40,11 +40,18 @@ namespace Intune_Deployment_Monitor.ViewModels
             get;
         }
 
+        public RelayCommand ExportToCsvCommand
+        {
+        
+            get;
+        }
+
         public AllDataViewModel()
         {
             _allDataModel = new AllDataModel();
             DataAssignments = new ObservableCollection<DataAssignment>();
             RefreshCommand = new RelayCommand(LoadDataAsync);
+            ExportToCsvCommand = new RelayCommand(ExportDataToCsv);
             LoadDataAsync();
         }
 
@@ -84,6 +91,37 @@ namespace Intune_Deployment_Monitor.ViewModels
             }
 
             OnPropertyChanged(nameof(DataAssignments));
+        }
+
+        private async void ExportDataToCsv()
+        {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            savePicker.FileTypeChoices.Add("CSV", new List<string>() { ".csv" });
+            savePicker.SuggestedFileName = "ExportedData";
+
+            // Get the current window's handle
+            IntPtr hwnd = WindowNative.GetWindowHandle(App.MainWindow);
+            InitializeWithWindow.Initialize(savePicker, hwnd);
+
+            Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                StringBuilder csv = new StringBuilder();
+                // Add headers
+                csv.AppendLine("ResourceType,GroupId,GroupDisplayName,ResourceName,DeploymentStatus,IncludeExcludeStatus");
+
+                // Add data
+                foreach (var data in DataAssignments)
+                {
+                    csv.AppendLine($"{data.ResourceType},{data.GroupId},{data.GroupDisplayName},{data.ResourceName},{data.DeploymentStatus},{data.IncludeExcludeStatus}");
+                }
+
+                // Save to file
+                await Windows.Storage.FileIO.WriteTextAsync(file, csv.ToString());
+            }
         }
     }
 
