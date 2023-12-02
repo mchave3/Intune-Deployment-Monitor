@@ -74,19 +74,19 @@
 
         <Grid Grid.Row="2" Margin="0,0,0,50">
             <StackPanel Orientation="Horizontal" >
-                <Button Height="180" Width="150" Margin="0,0,20,0">
+                <Button Height="180" Width="150" Margin="0,0,20,0" Click="ButtonAzure_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="ms-appx:///Assets/HomePage/Azure_logo.png" Height="50" Width="50"/>
                         <TextBlock Text="Portal Azure" FontSize="16" Margin="5"/>
                     </StackPanel>
                 </Button>
-                <Button Height="180" Width="150" Margin="0,0,20,0">
+                <Button Height="180" Width="150" Margin="0,0,20,0" Click="ButtonIntune_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="ms-appx:///Assets/HomePage/Intune_logo.png" Height="50" Width="50"/>
                         <TextBlock Text="Portal Intune" FontSize="16" Margin="5"/>
                     </StackPanel>
                 </Button>
-                <Button Height="180" Width="150" Margin="0,0,20,0">
+                <Button Height="180" Width="150" Margin="0,0,20,0" Click="ButtonGithub_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="ms-appx:///Assets/HomePage/Github_logo.png" Height="50" Width="50"/>
                         <TextBlock Text="Github" FontSize="16" Margin="5"/>
