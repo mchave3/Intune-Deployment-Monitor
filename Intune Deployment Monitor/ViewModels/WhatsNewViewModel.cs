@@ -2,24 +2,19 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Intune_Deployment_Monitor.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
-    internal class WhatsNewViewModel : INotifyPropertyChanged
+    internal class WhatsNewViewModel : ObservableObject
     {
         private readonly WhatsNewService _whatsNewService;
         private ReleaseInfo _latestRelease;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ReleaseInfo LatestRelease
         {
             get => _latestRelease;
-            set
-            {
-                _latestRelease = value;
-                OnPropertyChanged(nameof(LatestRelease));
-            }
+            set => SetProperty(ref _latestRelease, value);
         }
 
         public WhatsNewViewModel()
@@ -31,11 +26,6 @@ namespace Intune_Deployment_Monitor.ViewModels
         private async Task LoadLatestReleaseAsync()
         {
             LatestRelease = await _whatsNewService.GetLatestReleaseInfoAsync();
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
