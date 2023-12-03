@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Intune_Deployment_Monitor.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,27 +8,13 @@ namespace Intune_Deployment_Monitor.ViewModels
 {
     internal class WhatsNewViewModel : ObservableObject
     {
-        private readonly WhatsNewService _whatsNewService;
-        private ReleaseInfo _latestRelease;
+        private string _latestReleaseBody;
         private string _htmlContent;
 
-        public ReleaseInfo LatestRelease
+        public string LatestReleaseBody
         {
-            get => _latestRelease;
-            set => SetProperty(ref _latestRelease, value);
-        }
-
-        public class ReleaseInfo
-        {
-            public string TagName
-            {
-                get; set;
-            }
-            public string Body
-            {
-                get; set;
-            }
-            // Autres propriétés...
+            get => _latestReleaseBody;
+            set => SetProperty(ref _latestReleaseBody, value);
         }
 
         public string HtmlContent
@@ -39,14 +25,17 @@ namespace Intune_Deployment_Monitor.ViewModels
 
         public WhatsNewViewModel()
         {
-            _whatsNewService = new WhatsNewService();
+            Debug.WriteLine("Loading latest release info from GitHub API...");
             LoadLatestReleaseAsync();
         }
 
         private async Task LoadLatestReleaseAsync()
         {
-            LatestRelease = await _whatsNewService.GetLatestReleaseInfoAsync();
-            HtmlContent = Markdown.ToHtml(LatestRelease.Body);
+            LatestReleaseBody = await WhatsNewService.GetLatestReleaseInfoAsync();
+            Debug.WriteLine($"Latest release body: {LatestReleaseBody}");
+
+            HtmlContent = Markdown.ToHtml(LatestReleaseBody);
+            Debug.WriteLine($"HTML content: {HtmlContent}");
         }
     }
 }

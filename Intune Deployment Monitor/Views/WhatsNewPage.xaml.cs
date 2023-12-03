@@ -5,16 +5,19 @@ namespace Intune_Deployment_Monitor.Views
 {
     public sealed partial class WhatsNewPage : Page
     {
+        private WhatsNewViewModel viewModel;
+
         public WhatsNewPage()
         {
             this.InitializeComponent();
-            this.Loaded += WhatsNewPage_Loaded;
+            viewModel = new WhatsNewViewModel();
+            this.DataContext = viewModel;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        private async void WhatsNewPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var viewModel = DataContext as WhatsNewViewModel;
-            if (viewModel != null)
+            if (e.PropertyName == nameof(WhatsNewViewModel.HtmlContent))
             {
                 await webView.EnsureCoreWebView2Async();
                 webView.NavigateToString(viewModel.HtmlContent);
