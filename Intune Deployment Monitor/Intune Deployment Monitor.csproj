@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="Views\AllDataPage.xaml" />
     <None Remove="Views\DetailsPage.xaml" />
+    <None Remove="Views\WhatsNewPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +56,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\WhatsNewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\AllDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
