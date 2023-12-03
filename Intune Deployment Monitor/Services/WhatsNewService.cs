@@ -1,34 +1,24 @@
-﻿using System.Net.Http;
+﻿using Intune_Deployment_Monitor.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Intune_Deployment_Monitor.ViewModels;
 
-public class WhatsNewService
+namespace Intune_Deployment_Monitor.Services
 {
-    private const string ReleaseUrl = "https://api.github.com/repos/mchave3/Intune-Deployment-Monitor/releases/latest";
-
-    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync()
+    public class WhatsNewService
     {
-        using (var client = new HttpClient())
-        {
-            client.DefaultRequestHeaders.Add("User-Agent", "request");
+        private const string ReleaseUrl = "https://api.github.com/repos/mchave3/Intune-Deployment-Monitor/releases/latest";
 
-            var response = await client.GetStringAsync(ReleaseUrl);
-            var releaseInfo = JsonConvert.DeserializeObject<ReleaseInfo>(response);
-
-            return releaseInfo;
-        }
-    }
-
-    public class ReleaseInfo
-    {
-        public string TagName
+        public async Task<ReleaseInfo> GetLatestReleaseInfoAsync()
         {
-            get; set;
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "request");
+                var response = await client.GetStringAsync(ReleaseUrl);
+                var releaseInfo = JsonConvert.DeserializeObject<ReleaseInfo>(response);
+                return releaseInfo;
+            }
         }
-        public string Body
-        {
-            get; set;
-        }
-        // Ajoutez d'autres propriétés selon les données de release que vous souhaitez afficher
     }
 }

@@ -156,4 +156,7 @@
   <data name="Shell_AllData.Content" xml:space="preserve">
     <value>All Data</value>
   </data>
+  <data name="Shell_WhatsNew.Content" xml:space="preserve">
+    <value>What's New !</value>
+  </data>
 </root>
