@@ -43,14 +43,17 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
+                
+                <!-- What's New Page -->
                 <NavigationViewItem x:Uid="Shell_WhatsNew" helpers:NavigationHelper.NavigateTo="Intune_Deployment_Monitor.ViewModels.WhatsNewViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80F;"/>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE734;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 
                 <NavigationViewItemSeparator/>
                 
+                <!-- Home Page -->
                 <NavigationViewItem x:Uid="Shell_Home" helpers:NavigationHelper.NavigateTo="Intune_Deployment_Monitor.ViewModels.HomeViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80F;"/>
@@ -59,6 +62,7 @@
                 
                 <NavigationViewItemSeparator/>
                 
+                <!-- All Data Page -->
                 <NavigationViewItem x:Uid="Shell_AllData" helpers:NavigationHelper.NavigateTo="Intune_Deployment_Monitor.ViewModels.AllDataViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE71D;"/>

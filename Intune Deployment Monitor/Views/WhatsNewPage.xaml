@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Intune_Deployment_Monitor.Views.WhatsNewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,14 +5,10 @@
     xmlns:local="using:Intune_Deployment_Monitor.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:wv2="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
 
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding LatestRelease.TagName}" FontSize="20" FontWeight="Bold" />
-            <TextBlock Text="{Binding LatestRelease.Body}" TextWrapping="Wrap" Margin="0,10,0,0" />
-            <!-- Ajoutez d'autres éléments de l'interface utilisateur selon vos besoins -->
-        </StackPanel>
+        <wv2:WebView2 x:Name="webView"/>
     </Grid>
 </Page>

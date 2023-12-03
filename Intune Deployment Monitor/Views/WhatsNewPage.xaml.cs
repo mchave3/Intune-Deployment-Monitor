@@ -1,5 +1,5 @@
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Intune_Deployment_Monitor.ViewModels;
 
 namespace Intune_Deployment_Monitor.Views
 {
@@ -8,7 +8,17 @@ namespace Intune_Deployment_Monitor.Views
         public WhatsNewPage()
         {
             this.InitializeComponent();
-            this.DataContext = new ViewModels.WhatsNewViewModel();
+            this.Loaded += WhatsNewPage_Loaded;
+        }
+
+        private async void WhatsNewPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            var viewModel = DataContext as WhatsNewViewModel;
+            if (viewModel != null)
+            {
+                await webView.EnsureCoreWebView2Async();
+                webView.NavigateToString(viewModel.HtmlContent);
+            }
         }
     }
 }

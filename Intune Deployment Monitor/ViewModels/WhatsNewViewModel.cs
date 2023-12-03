@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Intune_Deployment_Monitor.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Markdig;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
@@ -10,11 +10,31 @@ namespace Intune_Deployment_Monitor.ViewModels
     {
         private readonly WhatsNewService _whatsNewService;
         private ReleaseInfo _latestRelease;
+        private string _htmlContent;
 
         public ReleaseInfo LatestRelease
         {
             get => _latestRelease;
             set => SetProperty(ref _latestRelease, value);
+        }
+
+        public class ReleaseInfo
+        {
+            public string TagName
+            {
+                get; set;
+            }
+            public string Body
+            {
+                get; set;
+            }
+            // Autres propriétés...
+        }
+
+        public string HtmlContent
+        {
+            get => _htmlContent;
+            set => SetProperty(ref _htmlContent, value);
         }
 
         public WhatsNewViewModel()
@@ -26,19 +46,7 @@ namespace Intune_Deployment_Monitor.ViewModels
         private async Task LoadLatestReleaseAsync()
         {
             LatestRelease = await _whatsNewService.GetLatestReleaseInfoAsync();
+            HtmlContent = Markdown.ToHtml(LatestRelease.Body);
         }
-    }
-
-    public class ReleaseInfo
-    {
-        public string TagName
-        {
-            get; set;
-        }
-        public string Body
-        {
-            get; set;
-        }
-        // Ajoutez d'autres propriétés selon les données de release que vous souhaitez afficher
     }
 }
