@@ -5,10 +5,12 @@
     xmlns:local="using:Intune_Deployment_Monitor.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:wv2="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Control="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
     <Grid>
-        <RichTextBlock x:Name="richTextBlock"/>
+        <Control:MarkdownTextBlock 
+            x:Name="MarkdownTextBlock"
+            Background="Transparent"/>
     </Grid>
 </Page>

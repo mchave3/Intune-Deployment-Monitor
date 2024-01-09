@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Intune_Deployment_Monitor.Services
