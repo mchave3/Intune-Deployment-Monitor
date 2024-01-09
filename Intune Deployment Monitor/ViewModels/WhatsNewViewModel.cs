@@ -1,15 +1,16 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 using Intune_Deployment_Monitor.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Markdig;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
     internal class WhatsNewViewModel : ObservableObject
     {
         private string _latestReleaseBody;
-        private string _htmlContent;
+        private Paragraph _richTextContent;
 
         public string LatestReleaseBody
         {
@@ -17,10 +18,10 @@ namespace Intune_Deployment_Monitor.ViewModels
             set => SetProperty(ref _latestReleaseBody, value);
         }
 
-        public string HtmlContent
+        public Paragraph RichTextContent
         {
-            get => _htmlContent;
-            set => SetProperty(ref _htmlContent, value);
+            get => _richTextContent;
+            set => SetProperty(ref _richTextContent, value);
         }
 
         public WhatsNewViewModel()
@@ -34,8 +35,17 @@ namespace Intune_Deployment_Monitor.ViewModels
             LatestReleaseBody = await WhatsNewService.GetLatestReleaseInfoAsync();
             Debug.WriteLine($"Latest release body: {LatestReleaseBody}");
 
-            HtmlContent = Markdown.ToHtml(LatestReleaseBody);
-            Debug.WriteLine($"HTML content: {HtmlContent}");
+            RichTextContent = ConvertMarkdownToRichText(LatestReleaseBody);
+            Debug.WriteLine($"RichTextContent created");
+        }
+
+        private Paragraph ConvertMarkdownToRichText(string markdown)
+        {
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var markdownResult = Markdig.Markdown.ToHtml(markdown, pipeline);
+
+            var xaml = $@"<Paragraph xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>{markdownResult}</Paragraph>";
+            return XamlReader.Load(xaml) as Paragraph;
         }
     }
 }

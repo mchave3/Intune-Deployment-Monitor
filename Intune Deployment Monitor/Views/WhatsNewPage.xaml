@@ -9,6 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <wv2:WebView2 x:Name="webView"/>
+        <RichTextBlock x:Name="richTextBlock" Blocks="{Binding RichTextContent}"/>
     </Grid>
 </Page>
