@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Markdig;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Markup;
+using Windows.Data.Html;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
@@ -30,22 +31,33 @@ namespace Intune_Deployment_Monitor.ViewModels
             LoadLatestReleaseAsync();
         }
 
+        // Load the latest release info from GitHub API
         private async Task LoadLatestReleaseAsync()
         {
+            // Get the latest release info from GitHub API
             LatestReleaseBody = await WhatsNewService.GetLatestReleaseInfoAsync();
             Debug.WriteLine($"Latest release body: {LatestReleaseBody}");
 
+            // Convert the Markdown to RichText format
             RichTextContent = ConvertMarkdownToRichText(LatestReleaseBody);
             Debug.WriteLine($"RichTextContent created");
         }
 
+        // Convert Markdown to RichText format
         private Paragraph ConvertMarkdownToRichText(string markdown)
         {
+            // Convert Markdown to HTML
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-            var markdownResult = Markdig.Markdown.ToHtml(markdown, pipeline);
+            var markdownResult = Markdown.ToHtml(markdown, pipeline);
 
-            var xaml = $@"<Paragraph xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>{markdownResult}</Paragraph>";
-            return XamlReader.Load(xaml) as Paragraph;
+            // Convert HTML to RichText
+            var plainText = HtmlUtilities.ConvertToText(markdownResult);
+
+            // Create RichTextBlock content
+            var paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Run { Text = plainText });
+
+            return paragraph;
         }
     }
 }

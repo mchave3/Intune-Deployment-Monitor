@@ -9,6 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <RichTextBlock x:Name="richTextBlock" Blocks="{Binding RichTextContent}"/>
+        <RichTextBlock x:Name="richTextBlock"/>
     </Grid>
 </Page>
