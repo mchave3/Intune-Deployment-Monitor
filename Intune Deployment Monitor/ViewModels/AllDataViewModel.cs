@@ -7,11 +7,15 @@ using WinRT.Interop;
 
 namespace Intune_Deployment_Monitor.ViewModels
 {
+    // ViewModel for all data
     public class AllDataViewModel : ObservableObject
     {
+        // Model for all data
         private readonly AllDataModel _allDataModel;
+        // List of all data assignments
         private List<DataAssignment> _allDataAssignments;
 
+        // Property indicating if data is loading
         private bool _isLoading;
         public bool IsLoading
         {
@@ -19,11 +23,13 @@ namespace Intune_Deployment_Monitor.ViewModels
             set => SetProperty(ref _isLoading, value);
         }
 
+        // Collection of data assignments
         public ObservableCollection<DataAssignment> DataAssignments
         {
             get;
         }
 
+        // Text for searching data assignments
         private string _searchText;
         public string SearchText
         {
@@ -35,17 +41,19 @@ namespace Intune_Deployment_Monitor.ViewModels
             }
         }
 
+        // Command to refresh data
         public RelayCommand RefreshCommand
         {
             get;
         }
 
+        // Command to export data to CSV
         public RelayCommand ExportToCsvCommand
         {
-        
             get;
         }
 
+        // Constructor
         public AllDataViewModel()
         {
             _allDataModel = new AllDataModel();
@@ -55,6 +63,7 @@ namespace Intune_Deployment_Monitor.ViewModels
             LoadDataAsync();
         }
 
+        // Asynchronously load data
         private async void LoadDataAsync()
         {
             IsLoading = true;
@@ -78,6 +87,7 @@ namespace Intune_Deployment_Monitor.ViewModels
             IsLoading = false;
         }
 
+        // Filter data assignments based on search text
         private void FilterDataAssignments()
         {
             var filteredData = string.IsNullOrEmpty(SearchText)
@@ -93,6 +103,7 @@ namespace Intune_Deployment_Monitor.ViewModels
             OnPropertyChanged(nameof(DataAssignments));
         }
 
+        // Export data to CSV file
         private async void ExportDataToCsv()
         {
             var savePicker = new Windows.Storage.Pickers.FileSavePicker
@@ -124,32 +135,40 @@ namespace Intune_Deployment_Monitor.ViewModels
             }
         }
     }
+}
 
-    public class DataAssignment
+
+// Class representing a data assignment
+public class DataAssignment
+{
+    // Type of the resource
+    public string ResourceType
     {
-        public string ResourceType
-        {
-            get; set;
-        }
-        public string GroupId
-        {
-            get; set;
-        }
-        public string GroupDisplayName
-        {
-            get; set;
-        }
-        public string ResourceName
-        {
-            get; set;
-        }
-        public string DeploymentStatus
-        {
-            get; set;
-        }
-        public string IncludeExcludeStatus
-        {
-            get; set;
-        }
+        get; set;
+    }
+    // ID of the group
+    public string GroupId
+    {
+        get; set;
+    }
+    // Display name of the group
+    public string GroupDisplayName
+    {
+        get; set;
+    }
+    // Name of the resource
+    public string ResourceName
+    {
+        get; set;
+    }
+    // Status of the deployment
+    public string DeploymentStatus
+    {
+        get; set;
+    }
+    // Status of include/exclude
+    public string IncludeExcludeStatus
+    {
+        get; set;
     }
 }
