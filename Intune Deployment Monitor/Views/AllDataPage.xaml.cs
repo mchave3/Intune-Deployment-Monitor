@@ -111,7 +111,7 @@ public sealed partial class AllDataPage : Page
             {
                 Frame.Navigate(typeof(DetailsViews.WMAP_DetailsPage), selectedItem);
             }
-            
+
             */
 
             Frame.Navigate(typeof(DetailsPage), selectedItem);
