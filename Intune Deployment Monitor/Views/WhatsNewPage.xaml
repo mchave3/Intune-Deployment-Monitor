@@ -10,7 +10,8 @@
 
     <Grid>
         <Control:MarkdownTextBlock 
-            x:Name="MarkdownTextBlock"
-            Background="Transparent"/>
+        x:Name="MarkdownTextBlock"
+        Background="Transparent"
+        Padding="0,30,0,0"/>
     </Grid>
 </Page>
