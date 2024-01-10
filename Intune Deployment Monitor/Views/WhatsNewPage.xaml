@@ -8,10 +8,11 @@
     xmlns:Control="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
+    <!-- Define the MarkdownTextBlock -->
     <Grid>
         <Control:MarkdownTextBlock 
         x:Name="MarkdownTextBlock"
         Background="Transparent"
-        Padding="0,30,0,0"/>
+        Padding="0,30,0,10"/>
     </Grid>
 </Page>
