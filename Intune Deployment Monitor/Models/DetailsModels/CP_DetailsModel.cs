@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Net.Http.Headers;
-using Newtonsoft.Json;
 using Intune_Deployment_Monitor.Services;
+using Newtonsoft.Json;
 
-namespace Intune_Deployment_Monitor.Models
+namespace Intune_Deployment_Monitor.Models.DetailsModels
 {
-    class AllDataModel
+    class CP_DetailsModel
     {
         private readonly string baseGraphUrl = "https://graph.microsoft.com";
         private readonly string apiVersion = "Beta";
@@ -146,20 +146,7 @@ namespace Intune_Deployment_Monitor.Models
         {
             return new List<(string Url, string Name)>
             {
-                ("deviceManagement/configurationPolicies", "Configuration Policies"),
-                ("deviceManagement/deviceCompliancePolicies", "Device Compliance Policies"),
-                ("deviceManagement/deviceConfigurations", "Device Configurations"),
-                ("deviceManagement/deviceHealthScripts", "Device Health Scripts"),
-                ("deviceManagement/deviceManagementScripts", "Device Management Scripts"),
-                ("deviceManagement/groupPolicyConfigurations", "Group Policy Configurations"),
-                ("deviceAppManagement/mobileAppConfigurations", "Mobile App Configurations"),
-                ("deviceManagement/windowsAutopilotDeploymentProfiles", "Windows Autopilot Deployment Profiles"),
-                ("deviceAppManagement/mobileApps", "Applications"),
-                ("deviceAppManagement/androidManagedAppProtections", "Android Managed App Protections"),
-                ("deviceAppManagement/targetedManagedAppConfigurations", "App Configurations"),
-                ("deviceAppManagement/iosManagedAppProtections", "iOS Managed App Protections"),
-                ("deviceAppManagement/mdmWindowsInformationProtectionPolicies", "MDM Windows Information Protection Policies"),
-                ("deviceAppManagement/windowsManagedAppProtections", "Windows Managed App Protections")
+                ("deviceManagement/configurationPolicies", "Configuration Policies")
             };
         }
 

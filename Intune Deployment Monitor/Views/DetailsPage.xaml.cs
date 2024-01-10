@@ -1,4 +1,3 @@
-using Intune_Deployment_Monitor.ViewModels;
 using Intune_Deployment_Monitor.Behaviors;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,7 +28,6 @@ public sealed partial class DetailsPage : Page
             NavigationViewHeaderBehavior.SetHeaderContext(this, data.ResourceName);
         }
     }
-
 
     // Event handler for the Return button
     private void AppBarButton_Return(object sender, RoutedEventArgs e)

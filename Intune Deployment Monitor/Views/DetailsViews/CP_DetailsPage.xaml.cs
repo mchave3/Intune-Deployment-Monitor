@@ -1,25 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Intune_Deployment_Monitor.Behaviors;
 
-namespace Intune_Deployment_Monitor.Views.DetailsViews
+namespace Intune_Deployment_Monitor.Views.DetailsViews;
+
+public sealed partial class CP_DetailsPage : Page
 {
-    public sealed partial class CP_DetailsPage : Page
+    public CP_DetailsPage()
     {
-        public CP_DetailsPage()
+        this.InitializeComponent();
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        var data = e.Parameter as DataAssignment;
+
+        if (data != null)
         {
-            this.InitializeComponent();
+            ResourceTypeTextBlock.Text += " " + data.ResourceType;
+            GroupIdTextBlock.Text += " " + data.GroupId;
+            GroupDisplayNameTextBlock.Text += " " + data.GroupDisplayName;
+            ResourceNameTextBlock.Text += " " + data.ResourceName;
+
+            // Set the header context for this page
+            NavigationViewHeaderBehavior.SetHeaderContext(this, data.ResourceName);
+        }
+    }
+
+    // Event handler for the Return button
+    private void AppBarButton_Return(object sender, RoutedEventArgs e)
+    {
+        if (this.Frame.CanGoBack)
+        {
+            this.Frame.GoBack();
         }
     }
 }
